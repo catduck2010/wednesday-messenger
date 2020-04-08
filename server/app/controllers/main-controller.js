@@ -1,5 +1,6 @@
 'use strict';
-const userService = require('../services/user-service');
+const userService = require('../services/user-service'),
+    common = require('../services/common-service');
 /**
  * Throws error if error object is present.
  *
@@ -19,19 +20,31 @@ let renderErrorResponse = response => {
 
 exports.register = (request, response) => {
     let user = Object.assign({}, request.body);
-    const promise = userService.search(user);
+    const promise = userService.create(user);
     promise
-        .then((res) => {
-            if (!res) {
-                return userService.create(user);
-            } else {
-                throw new Error('User exists!');
-            }
-        })
         .then(newUser => {
             response.status(201);
             response.json(newUser);
         })
         .catch(renderErrorResponse(response));
 };
+
+exports.verify = (request, response) => {
+    const username = request.body.username, password = request.body.password;
+    const promise = userService.search(username);
+    promise
+        .then(user => {
+            if (common.password(password) === user.password) {
+                response.status(200);
+                response.json({
+                    message: 'Logged in',
+                    sessionId: common.uuid()
+                });
+            } else {
+                throw new Error('Incorrect username or password.');
+            }
+        })
+        .catch(renderErrorResponse(response));
+};
+
 

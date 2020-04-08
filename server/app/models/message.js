@@ -5,9 +5,12 @@ const Schema = mongoose.Schema;
 
 let messageSchema = Schema(
     {
-        messageId: {type: String, default: common.uuid()},
+        userId: {type: String, required: true},
+        chatId: {type: String, required: true},
+        messageId: {type: String, default: common.uuid(), index: true},
         type: {type: String, default: 'text'},
-        content: String
+        content: String,
+        time: {type: Date, default: Date.now()}
     }
 );
 

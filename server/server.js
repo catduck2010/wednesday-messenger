@@ -7,7 +7,8 @@ const express = require("express"),
 mongoose.connect('mongodb://localhost:27017/messenger', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useCreateIndex: true
 });
 mongoose.Promise = global.Promise;
 

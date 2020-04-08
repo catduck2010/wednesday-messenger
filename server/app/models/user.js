@@ -14,7 +14,8 @@ let userSchema = new Schema(
             unique: [true, 'Username exists!']
         },
         password: {type: String, required: [true, 'Password is needed!']},
-        friendList: [String] // userId
+        friendList: [String], // userId
+        chatList: [String]
     }
 );
 

@@ -10,9 +10,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "latest",
     "express": "latest",
     "mongoose": "^5.9.7",
-    "body-parser": "latest",
-    "pbkdf2": "latest"
+    "socket.io": "^2.3.0"
   }
 }

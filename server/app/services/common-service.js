@@ -1,5 +1,5 @@
 'use strict';
-const pbkdf2 = require('pbkdf2');
+
 const crypto = require('crypto');
 
 exports.uuid = () => {

@@ -6,6 +6,7 @@ exports.create = params => {
     return new User(params).save();
 };
 
-exports.search = params => {
-    return User.findOne({username: params.username}).exec();
+exports.search = username => {
+    return User.findOne({username: username}).exec();
 };
+
