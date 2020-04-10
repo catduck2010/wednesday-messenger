@@ -1,24 +1,8 @@
 'use strict';
 const userService = require('../services/user-service'),
     common = require('../helper/common'),
-    userMap = require('../helper/usermap');
-/**
- * Throws error if error object is present.
- *
- * @param {Response} response The response object
- * @return {Function} The error handler function.
- */
-let renderErrorResponse = response => {
-    return error => {
-        if (error) {
-            response.status(500);
-            response.json({
-                message: error.message
-            });
-            console.log(error);
-        }
-    };
-};
+    renderErrorResponse = require('../helper/common').renderErrorResponse;
+
 
 exports.test = (req, res) => {
     res.send('');

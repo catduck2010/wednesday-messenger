@@ -1,11 +1,13 @@
 'use strict';
-const userMap = require('../helper/usermap'),
-    chatService = require('../services/chat-service');
-exports.ioCtrl = (io) => {
+const userMap = require('../helper/usermap');
+require('../models/chat');
+const chatService = require('../services/chat-service');
+
+module.exports = (io) => {
     io.on('connection', (socket) => {
-        // if (io.sockets.connected[socket.id]) {
-        //     io.sockets.connected[socket.id].emit('message', socket.id);
-        // }
+        if (io.sockets.connected[socket.id]) {
+            io.sockets.connected[socket.id].emit('message', 'connected');
+        }
         // on connect/disconnect
         socket.on('login', (userId, sessionId) => {
             userMap.put(userId, socket.id, sessionId);

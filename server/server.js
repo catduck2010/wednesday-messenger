@@ -3,7 +3,7 @@ const app = require("express")(),
     mongoose = require('mongoose'), //created model loading here
     bodyParser = require('body-parser'),
     server = require('http').createServer(app),
-    ioCtrl = require('./app/controllers/socket-controller').ioCtrl,
+    ioCtrl = require('./app/controllers/socket-controller'),
     io = require('socket.io').listen(server);
 
 mongoose.connect('mongodb://localhost:27017/messenger', {

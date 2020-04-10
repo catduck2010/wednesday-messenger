@@ -9,4 +9,8 @@ module.exports = app => {
         .post(mainController.register);
     app.route('/login')
         .post(mainController.verify);
+    app.route('/user/:username')
+        .get();
+    app.route('/user/id/:userId')
+        .get().put().delete();
 };
