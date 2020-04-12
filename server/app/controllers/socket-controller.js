@@ -1,6 +1,6 @@
 'use strict';
-const userMap = require('../helper/usermap');
 require('../models/chat');
+const userMap = require('../helper/usermap');
 const chatService = require('../services/chat-service');
 
 module.exports = (io) => {

@@ -21,7 +21,7 @@ exports.register = (request, response) => {
     promise
         .then((u) => {
             if (!u) {
-                console.log('Username not used!');
+                // console.log('Username not used!');
                 return userService.create(user);
             } else {
                 throw new Error(`User exists!`);

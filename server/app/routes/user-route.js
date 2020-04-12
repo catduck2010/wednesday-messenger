@@ -1,6 +1,6 @@
 'use strict';
 
-const mainController = require('../controllers/main-controller');
+const mainController = require('../controllers/user-controller');
 
 module.exports = app => {
     app.route('/uuid')

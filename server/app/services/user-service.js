@@ -10,6 +10,10 @@ exports.search = username => {
     return User.findOne({username: username}).exec();
 };
 
+exports.get = userId => {
+    return User.findOne({userId: userId}).exec();
+};
+
 exports.newSession = (username, sessionId) => {
     return User.updateOne({username: username}, {
         sessionId: sessionId
