@@ -5,12 +5,14 @@ const app = require("express")(),
     server = require('http').createServer(app),
     ioCtrl = require('./app/controllers/socket-controller'),
     io = require('socket.io').listen(server);
-
+// docker pull mongo:4.2.5-bionic
+// docker run --name mymongo -p 27017:27017 -v ~/.mongo/db:/data/db -d mongo:4.2.5-bionic
 mongoose.connect('mongodb://localhost:27017/messenger', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
-    useCreateIndex: true
+    useCreateIndex: true,
+    retryWrites: false
 });
 mongoose.Promise = global.Promise;
 

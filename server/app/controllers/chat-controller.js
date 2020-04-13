@@ -20,19 +20,28 @@ let sessionCheck = (sessionId, req, res, statusCode) => {
 exports.newMessage = (req, res) => {
     const sessionId = req.body.sessionId;
     if (sessionCheck(sessionId, req, res, 403)) {
-        let item = Object.assign({}, res.body);
-        const promise = messageService.create(item);
-        promise.then((savedItem) => {
-            res.status(201);
-            res.json(savedItem);
-        });
+        const item = Object.assign({}, res.body);
+        item._id = common.uuid();
+        const promise = chatService.get(item.chatId);
+        // const promise = messageService.create(item);
+        promise
+            .then((doc) => {
+                if (doc === null || doc === undefined) {
+
+                }
+            })
+            .then((savedItem) => {
+                res.status(201);
+                res.json(savedItem);
+            });
     }
 };
 
 exports.newChat = (req, res) => {
     const sessionId = req.body.sessionId;
     if (sessionCheck(sessionId, req, res, 403)) {
-        let item = Object.assign({}, res.body);
+        const item = Object.assign({}, res.body);
+        item._id = common.uuid();
         const promise = chatService.create(item);
         promise.then((savedItem) => {
             res.status(201);

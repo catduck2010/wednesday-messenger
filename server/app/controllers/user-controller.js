@@ -16,18 +16,23 @@ exports.uuid = (req, res) => {
 };
 
 exports.register = (request, response) => {
-    let user = Object.assign({}, request.body);
-    const promise = userService.search(user.username);
+    const user = Object.assign({}, request.body);
+    user._id = common.uuid();
+    const promise = common.hashPassword(user.password);
     promise
+        .then((pw) => { // hash password
+            user.password = pw;
+            return userService.search(user.username);
+        })
         .then((u) => {
-            if (!u) {
+            if (!u) { // check user existence
                 // console.log('Username not used!');
                 return userService.create(user);
             } else {
                 throw new Error(`User exists!`);
             }
         })
-        .then(newUser => {
+        .then(newUser => { // user created
             response.status(201);
             response.json(newUser);
         })
@@ -38,18 +43,26 @@ exports.verify = (request, response) => {
     const sessionId = common.uuid();
     const username = request.body.username, password = request.body.password;
     const promise = userService.search(username);
+    let userId = '';
     promise
-        .then(user => {
-            if (common.password(password) === user.password) {
-                return userService.newSession(user.username, sessionId);
-            } else {
+        .then(user => { // find the user
+            if (user === null || user === undefined) {
                 throw new Error('Incorrect username or password.');
+                // return userService.newSession(user.username, sessionId);
+            } else {
+                userId = user._id;
+                return common.password(password, user.password);
             }
         })
-        .then(() => {
+        .then((flag) => { // check password
+            if (flag) return userService.newSession(username, sessionId);
+            else throw new Error('Incorrect username or password.');
+        })
+        .then(() => { // log in succeeded
             response.status(200);
             response.json({
                 message: 'Logged in',
+                userId: userId,
                 sessionId: sessionId
             });
         })

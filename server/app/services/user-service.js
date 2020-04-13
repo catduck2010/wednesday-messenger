@@ -11,7 +11,7 @@ exports.search = username => {
 };
 
 exports.get = userId => {
-    return User.findOne({userId: userId}).exec();
+    return User.findById(userId).exec();
 };
 
 exports.newSession = (username, sessionId) => {
@@ -21,9 +21,33 @@ exports.newSession = (username, sessionId) => {
 };
 
 exports.delete = userId => {
-    User.findOneAndDelete({userId: userId}).exec();
+    return User.findByIdAndDelete(userId).exec();
 };
 
 exports.update = updatedItem => {
-    User.findOneAndUpdate({userId: updatedItem.userId}, updatedItem).exec();
+    return User.findByIdAndUpdate(updatedItem._id, updatedItem).exec();
 };
+
+exports.addChat = (users, chatId) => {
+    return User.updateMany({_id: {$in: users}}, {$addToSet: {chatList: chatId}}).exec();
+}
+
+exports.removeChat = (users, chatId) => {
+    return User.updateMany({_id: {$in: users}}, {$pull: {chatList: chatId}}).exec();
+}
+
+exports.addFriend = (userId, friendId) => {
+    return User.findByIdAndUpdate(userId, {$addToSet: {friendList: friendId}}).exec();
+}
+
+exports.deleteFriend = (userId, friendId) => {
+    return User.findByIdAndUpdate(userId, {$pull: {friendList: friendId}}).exec();
+}
+
+exports.blockFriend = (userId, friendId) => {
+    return User.findByIdAndUpdate(userId, {$addToSet: {blockList: friendId}}).exec();
+}
+
+exports.unblockFriend = (userId, friendId) => {
+    return User.findByIdAndUpdate(userId, {$pull: {blockList: friendId}}).exec();
+}

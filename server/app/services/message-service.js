@@ -11,14 +11,14 @@ exports.search = params => {
 };
 
 exports.delete = messageId => {
-    return Message.findOneAndDelete({messageId: messageId}).exec();
+    return Message.findByIdAndDelete(messageId).exec();
 };
 
 exports.get = messageId => {
-    return Message.findOne({messageId: messageId}).exec();
+    return Message.findById(messageId).exec();
 };
 
 exports.update = updatedItem => {
-    return Message.findOneAndUpdate({messageId: updatedItem.messageId}, updatedItem);
+    return Message.findByIdAndUpdate(updatedItem._id, updatedItem);
 };
 

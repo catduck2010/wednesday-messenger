@@ -1,6 +1,6 @@
 'use strict';
 
-const crypto = require('crypto');
+const pbkdf2 = require('./pbkdf2');
 
 exports.uuid = () => {
     // generate four random hex digits
@@ -8,8 +8,11 @@ exports.uuid = () => {
     return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 };
 
-exports.password = (str) => {
-    return str;
+exports.hashPassword = (password) => {
+    return pbkdf2.hashPassword(password);
+};
+exports.password = (password, combined) => {
+    return pbkdf2.verifyPassword(password, combined);
 };
 
 /**

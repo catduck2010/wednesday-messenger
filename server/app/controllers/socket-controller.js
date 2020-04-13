@@ -1,5 +1,5 @@
 'use strict';
-require('../models/chat');
+require('../models/index');
 const userMap = require('../helper/usermap');
 const chatService = require('../services/chat-service');
 
@@ -11,6 +11,7 @@ module.exports = (io) => {
         // on connect/disconnect
         socket.on('login', (userId, sessionId) => {
             userMap.put(userId, socket.id, sessionId);
+            console.log(userId, sessionId);
         });
         socket.on('disconnect', () => {
             userMap.remove(socket.id);
