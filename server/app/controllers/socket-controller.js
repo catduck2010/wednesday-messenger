@@ -2,8 +2,10 @@
 require('../models/index');
 const userMap = require('../helper/usermap');
 const chatService = require('../services/chat-service');
-
-module.exports = (io) => {
+/*
+ * separate socket.io actions
+ */
+const controller = (io) => {
     io.on('connection', (socket) => {
         if (io.sockets.connected[socket.id]) {
             io.sockets.connected[socket.id].emit('message', 'connected');
@@ -48,3 +50,5 @@ module.exports = (io) => {
         });
     });
 };
+
+module.exports = controller;
