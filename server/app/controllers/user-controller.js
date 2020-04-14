@@ -1,7 +1,7 @@
 'use strict';
 const userService = require('../services/user-service'),
     common = require('../helper/common'),
-    renderErrorResponse = require('../helper/common').renderErrorResponse;
+    renderErrorResponse = common.renderErrorResponse;
 
 
 exports.test = (req, res) => {
@@ -68,5 +68,78 @@ exports.verify = (request, response) => {
         })
         .catch(renderErrorResponse(response));
 };
+
+exports.getByUsername = (req, res) => {
+    const username = req.params.username;
+    const promise = userService.search(username);
+    promise
+        .then((doc) => {
+            res.status(200);
+            res.json(doc);
+        })
+        .catch(renderErrorResponse(res));
+};
+
+exports.getById = (req, res) => {
+    const userId = req.params.userId;
+    const promise = userService.get(userId);
+    promise
+        .then((doc) => {
+            res.status(200);
+            res.json(doc);
+        })
+        .catch(renderErrorResponse(res));
+};
+
+exports.updateById = (req, res) => {
+    const userId = req.params.userId,
+        sessionId = req.body.sessionId,
+        item = Object.assign({}, req.body);
+    item._id = userId;
+    const promise = userService.get(userId);
+    promise
+        .then((doc) => {
+            if (doc === null || doc === undefined) {
+                throw new Error('User not found!');
+            } else if (doc.sessionId !== sessionId) {
+                throw new Error('Access Denied');
+            } else {
+                return userService.update(item);
+            }
+        })
+        .then(() => {
+            return userService.get(userId);
+        })
+        .then((doc) => {
+            res.status(200);
+            res.json(doc);
+        })
+        .catch(renderErrorResponse(res));
+};
+
+exports.deleteById = (req, res) => {
+    const userId = req.params.userId,
+        sessionId = req.body.sessionId;
+    const promise = userService.get(userId);
+    promise
+        .then((doc) => {
+            if (doc === null || doc === undefined) {
+                throw new Error('User not found!');
+            } else if (doc.sessionId !== sessionId) {
+                throw new Error('Access Denied');
+            } else {
+                return userService.delete(userId);
+            }
+        })
+        .then(() => {
+            res.status(200);
+            res.json({
+                'message': `User ${userId} is deleted.`
+            })
+        })
+        .catch(renderErrorResponse(res));
+};
+
+
 
 

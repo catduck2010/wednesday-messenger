@@ -9,6 +9,12 @@ const config = {
     digest: 'sha256'
 };
 
+const rangeRandom = (min, max) => {
+    return Math.floor(
+        Math.random() * (max - min + 1) + min
+    );
+};
+
 /**
  * Hash a password using Node's asynchronous pbkdf2 (key derivation) function.
  *

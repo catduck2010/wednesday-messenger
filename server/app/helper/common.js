@@ -24,7 +24,22 @@ exports.password = (password, combined) => {
 exports.renderErrorResponse = response => {
     return error => {
         if (error) {
-            response.status(500);
+            if (error.message === 'Access Denied')
+                response.status(403);
+            else response.status(500);
+
+            response.json({
+                message: error.message
+            });
+            console.log(error);
+        }
+    };
+};
+
+exports.refuseToResponse = response => {
+    return error => {
+        if (error) {
+            response.status(403);
             response.json({
                 message: error.message
             });

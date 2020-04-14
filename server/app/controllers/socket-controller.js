@@ -35,7 +35,7 @@ module.exports = (io) => {
                             let socketId;
                             [socketId,] = userMap.get(user);
                             if (io.sockets.connected[socketId]) {
-                                io.sockets.connected[socketId].emit('chat-' + chatId, messageId);
+                                io.sockets.connected[socketId].emit('new message', chatId, messageId);
                             }
                         }
                     });

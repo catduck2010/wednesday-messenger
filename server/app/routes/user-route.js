@@ -1,16 +1,18 @@
 'use strict';
 
-const mainController = require('../controllers/user-controller');
+const userCtrl = require('../controllers/user-controller');
 
 module.exports = app => {
     app.route('/uuid')
-        .get(mainController.uuid);
+        .get(userCtrl.uuid);
     app.route('/register')
-        .post(mainController.register);
+        .post(userCtrl.register);
     app.route('/login')
-        .post(mainController.verify);
+        .post(userCtrl.verify);
     app.route('/user/:username')
-        .get();
+        .get(userCtrl.getByUsername);
     app.route('/user/id/:userId')
-        .get().put().delete();
+        .get(userCtrl.getById)
+        .put(userCtrl.updateById)
+        .delete(userCtrl.deleteById);
 };
