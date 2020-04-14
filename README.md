@@ -5,3 +5,8 @@
 * 001057068 Bo Liu
 * 001398614 Jieying Chen
 * 001306762 Xing Tong
+
+#### Tech 
+* JQuery
+* Scss
+* Angular
