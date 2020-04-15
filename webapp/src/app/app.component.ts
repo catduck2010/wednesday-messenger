@@ -10,8 +10,8 @@ export class AppComponent implements OnInit {
   title = 'webapp';
 
   ngOnInit(): void {
-    const socket = socketIo('http://localhost:777');
-    socket.on('message', data => console.log(data));
+    // const socket = socketIo('http://localhost:777');
+    // socket.on('message', data => console.log(data));
 
   }
 

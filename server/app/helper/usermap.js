@@ -5,6 +5,7 @@ const sessionMap = new Map();
 const ioMap = new Map();
 
 exports.put = (userId, socketId, sessionId) => {
+    console.log(`putting ${userId}, ${socketId}, ${sessionId}...`);
     userMap.set(userId, {
         socketId: socketId,
         sessionId: sessionId
@@ -23,10 +24,13 @@ const get = (userId) => {
 };
 
 const trySession = (sessionId) => sessionMap.has(sessionId) ? sessionMap.get(sessionId) : null;
+const checkOnline = (userId) => userMap.has(userId);
 
 exports.get = get;
 
 exports.session = trySession;
+
+exports.checkOnline = checkOnline;
 
 exports.remove = (socketId) => {
     if (ioMap.has(socketId)) {
@@ -38,9 +42,9 @@ exports.remove = (socketId) => {
     }
 };
 
-exports.genuine = (sessionId) => {
+exports.genuine = (sessionId, userId) => {
     return new Promise((resolve) => {
-        if (trySession(sessionId) === null) {
+        if (trySession(sessionId) === null || sessionMap.get(userId) !== sessionId) {
             throw new Error('Access Denied');
         } else {
             resolve();

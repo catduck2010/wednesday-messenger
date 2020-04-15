@@ -33,7 +33,7 @@ exports.newMessage = (req, res) => {
     //if (sessionCheck(sessionId, req, res, 403)) {
     const item = Object.assign({}, res.body);
     item._id = common.uuid();
-    const trySession = userMap.genuine(sessionId);
+    const trySession = userMap.genuine(sessionId, item.userId);
     const promise = chatService.get(item.chatId);
     trySession
         .then(() => promise)
@@ -56,11 +56,11 @@ exports.newMessage = (req, res) => {
 };
 
 exports.newChat = (req, res) => {
-    const sessionId = req.body.sessionId;
+    const sessionId = req.body.sessionId, userId = req.body.userId;
     //if (sessionCheck(sessionId, req, res, 403)) {
     const item = Object.assign({}, res.body);
     item._id = common.uuid();
-    const trySession = userMap.genuine(sessionId);
+    const trySession = userMap.genuine(sessionId, userId);
     const promise = chatService.create(item);
     let doc = null;
     trySession
@@ -77,9 +77,9 @@ exports.newChat = (req, res) => {
     //}
 };
 
-exports.getAllMessage = (req, res) => { // post
+exports.getChatMessage = (req, res) => { // post
     const chatId = req.params.chatId, sessionId = req.body.sessionId, userId = req.body.userId;
-    const trySession = userMap.genuine(sessionId);
+    const trySession = userMap.genuine(sessionId, userId);
     const promise = messageService.search({chatId: chatId});
     trySession
         .then(() => chatService.get(chatId))
@@ -101,24 +101,71 @@ exports.getAllMessage = (req, res) => { // post
 };
 
 exports.editChat = (req, res) => {
-
+    const chatId = req.params.chatId, sessionId = req.body.sessionId, userId = req.body.userId;
+    const trySession = userMap.genuine(sessionId, userId);
+    const item = Object.assign({}, req.body);
+    item._id = chatId;
+    const promise = chatService.update(item);
+    trySession
+        .then(() => promise)
+        .then((doc) => chatService.get(doc._id))
+        .then((doc) => {
+            res.status(201);
+            res.json(doc);
+        })
+        .catch(renderErrorResponse(res));
 };
 
 exports.deleteChat = (req, res) => {
-
+    const chatId = req.params.chatId, sessionId = req.body.sessionId, userId = req.body.userId;
+    const trySession = userMap.genuine(sessionId, userId);
+    trySession
+        .then(() => chatService.delete(chatId))
+        .then((doc) => {
+            res.status(201);
+            res.json(doc);
+        })
+        .catch(renderErrorResponse(res));
 };
 
 exports.getMessage = (req, res) => { // post
-
+    const messageId = req.params.messageId, sessionId = req.body.sessionId, userId = req.body.userId;
+    const trySession = userMap.genuine(sessionId, userId);
+    trySession
+        .then(() => messageService.get(messageId))
+        .then((doc) => {
+            res.status(201);
+            res.json(doc);
+        })
+        .catch(renderErrorResponse(res));
 };
 
 exports.editMessage = (req, res) => {
     const messageId = req.params.messageId, sessionId = req.body.sessionId, userId = req.body.userId;
-    const trySession = userMap.genuine(sessionId);
-    const promise = messageService.get()
+    const item = Object.assign({}, req.body);
+    item.messageId = messageId;
+    const promise = messageService.update(item);
+    const trySession = userMap.genuine(sessionId, userId);
+    trySession
+        .then(() => {
+            return promise;
+        })
+        .then((doc) => {
+            res.status(201);
+            res.json(doc);
+        })
+        .catch(renderErrorResponse(res));
 
 };
 
 exports.deleteMessage = (req, res) => {
-
+    const messageId = req.params.messageId, sessionId = req.body.sessionId, userId = req.body.userId;
+    const trySession = userMap.genuine(sessionId, userId);
+    trySession
+        .then(() => messageService.delete(messageId))
+        .then((doc) => {
+            res.status(201);
+            res.json(doc);
+        })
+        .catch(renderErrorResponse(res));
 };

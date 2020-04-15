@@ -1,20 +1,38 @@
 'use strict';
 require('../models/index');
 const userMap = require('../helper/usermap');
-const chatService = require('../services/chat-service');
+const chatService = require('../services/chat-service'),
+    userService = require('../services/user-service');
 /*
  * separate socket.io actions
  */
 const controller = (io) => {
     io.on('connection', (socket) => {
-        if (io.sockets.connected[socket.id]) {
-            io.sockets.connected[socket.id].emit('message', 'connected');
-        }
+        // on connection
+        const userId = socket.handshake.query.user;
+        const promise = userService.get(userId);
+        promise
+            .then((doc) => {
+                if (doc === null || doc === undefined) {
+                    throw new Error('No such user');
+                }
+                userMap.put(userId, socket.id, doc.sessionId);
+                if (io.sockets.connected[socket.id]) {
+                    io.sockets.connected[socket.id].emit('success', `User-${userId} is connected.`);
+                }
+            })
+            .catch((error) => {
+                if (io.sockets.connected[socket.id]) {
+                    io.sockets.connected[socket.id].emit('error_message', error.message);
+                }
+            });
+
         // on connect/disconnect
-        socket.on('login', (userId, sessionId) => {
-            userMap.put(userId, socket.id, sessionId);
-            console.log(userId, sessionId);
-        });
+        // socket.on('login', (userId, sessionId) => {
+        //     userMap.put(userId, socket.id, sessionId);
+        // });
+
+        // on disconnect
         socket.on('disconnect', () => {
             userMap.remove(socket.id);
         });

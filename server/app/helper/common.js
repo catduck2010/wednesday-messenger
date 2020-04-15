@@ -8,9 +8,20 @@ exports.uuid = () => {
     return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 };
 
+/**
+ * hash password
+ * @param password {string} original text
+ * @return {Promise} promise to hash password
+ * */
 exports.hashPassword = (password) => {
     return pbkdf2.hashPassword(password);
 };
+/**
+ * verify password
+ * @param password {string} text to be verified
+ * @param combined {string} encrypted text
+ * @return {Promise} promise to verify password
+ * */
 exports.password = (password, combined) => {
     return pbkdf2.verifyPassword(password, combined);
 };
@@ -46,6 +57,18 @@ exports.refuseToResponse = response => {
             console.log(error);
         }
     };
+};
+/**
+ * Random number between min & max
+ *
+ * @param {Number} min number
+ * @param {Number} max number
+ * @return {Number} random number between min & max
+ */
+exports.rangeRandom = (min, max) => {
+    return Math.floor(
+        Math.random() * (max - min + 1) + min
+    );
 };
 
 
