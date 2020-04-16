@@ -17,7 +17,7 @@ export class TestBlockComponent implements OnInit {
       .subscribe((doc) => {
 
         console.log(doc);
-        const socket = socketIo('http://localhost:777');// localhost:777?user=userId
+        const socket = socketIo('http://localhost:777');// localhost:777?user={userId}
         socket.on('message', data => console.log(data));
         socket.emit('login', doc.userId, doc.sessionId);
         // const socket = socketIo('http://localhost:777');

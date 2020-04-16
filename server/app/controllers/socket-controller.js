@@ -56,6 +56,9 @@ const controller = (io) => {
                             [socketId,] = userMap.get(user);
                             if (io.sockets.connected[socketId]) {
                                 io.sockets.connected[socketId].emit('new message', chatId, messageId);
+                                // socket.on('new message', (chatId, messageId)=>{
+                                //   //fetch data
+                                // })
                             }
                         }
                     });
