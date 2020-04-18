@@ -52,15 +52,13 @@ const controller = (io) => {
                     });
 
                     users.forEach((user) => {
-                        if (user !== userId) {
-                            let socketId;
-                            [socketId,] = userMap.get(user);
-                            if (io.sockets.connected[socketId]) {
-                                io.sockets.connected[socketId].emit('new message', chatId, messageId);
-                                // socket.on('new message', (chatId, messageId)=>{
-                                //   //fetch data
-                                // })
-                            }
+                        let socketId;
+                        [socketId,] = userMap.get(user);
+                        if (io.sockets.connected[socketId]) {
+                            io.sockets.connected[socketId].emit('new message', chatId, messageId);
+                            // socket.on('new message', (chatId, messageId)=>{
+                            //   //fetch data
+                            // })
                         }
                     });
                     socket.emit('sent', 'Message sent to chat!');
@@ -71,6 +69,66 @@ const controller = (io) => {
                 socket.emit('logout', 'You have logged out!');
             }
         });
+
+        // update message
+        socket.on('update message', (userId, sessionId, chatId, messageId) => {
+            if (userMap.session(sessionId) === userId) {
+                let users = [];
+                const promise = chatService.get(chatId);
+                promise.then((doc) => {
+                    if (doc === undefined || doc === null) {
+                        throw new Error('Null Chat!')
+                    }
+                    doc.users.forEach((user) => {
+                        // if (user !== userId)
+                        users.push('' + user);
+                    });
+
+                    users.forEach((user) => {
+                        let socketId;
+                        [socketId,] = userMap.get(user);
+                        if (io.sockets.connected[socketId]) {
+                            io.sockets.connected[socketId].emit('update', chatId, messageId);
+                        }
+                    });
+                    // socket.emit('sent', 'Message sent to chat!');
+                }).catch((error) => {
+                    socket.emit('error', error.message);
+                });
+            } else {
+                socket.emit('logout', 'You have logged out!');
+            }
+        })
+
+        socket.on('delete message', (userId, sessionId, chatId, messageId) => {
+            if (userMap.session(sessionId) === userId) {
+                let users = [];
+                const promise = chatService.get(chatId);
+                promise.then((doc) => {
+                    if (doc === undefined || doc === null) {
+                        throw new Error('Null Chat!')
+                    }
+                    doc.users.forEach((user) => {
+                        // if (user !== userId)
+                        users.push('' + user);
+                    });
+
+                    users.forEach((user) => {
+                        let socketId;
+                        [socketId,] = userMap.get(user);
+                        if (io.sockets.connected[socketId]) {
+                            io.sockets.connected[socketId].emit('delete', chatId, messageId);
+                        }
+                    });
+                    // socket.emit('sent', 'Message sent to chat!');
+                }).catch((error) => {
+                    socket.emit('error', error.message);
+                });
+            } else {
+                socket.emit('logout', 'You have logged out!');
+            }
+        })
+
     });
 };
 

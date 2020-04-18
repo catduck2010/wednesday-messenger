@@ -13,7 +13,10 @@ export class SocketService {
 
   connect(userId: string,
           newMessageHandler: (chatId: string, messageId: string) => void,
-          sentHandler: (message: string) => void) {
+          sentHandler: (message: string) => void,
+          updateHandler: (chatId: string, messageId: string) => void,
+          deleteHandler: (chatId: string, messageId: string) => void,
+          sessionExpireHandler: (message: string) => void) {
     const uri = this.url + userId;
     this.socket = socketIo.connect(uri);
     this.socket.on('success', (doc: string) => {
@@ -25,6 +28,12 @@ export class SocketService {
     });
     this.socket.on('new message', newMessageHandler);
     this.socket.on('sent', sentHandler);
+    this.socket.on('update', updateHandler);
+    this.socket.on('delete', deleteHandler);
+    this.socket.on('logout', (message) => {
+      this.disconnect();
+      sessionExpireHandler(message);
+    });
     return this.socket;
   }
 
@@ -40,10 +49,23 @@ export class SocketService {
     }
   }
 
+  updateMessage(userId: string, sessionId: string, chatId: string, messageId: string): void {
+    if (this.socket && this.socket.connected) {
+      this.socket.emit('update message', userId, sessionId, messageId);
+    }
+  }
+
+  deleteMessage(userId: string, sessionId: string, chatId: string, messageId: string): void {
+    if (this.socket && this.socket.connected) {
+      this.socket.emit('delete message', userId, sessionId, messageId);
+    }
+  }
+
   disconnect(): void {
     if (this.socket && this.socket.connected) {
       this.socket.disconnect();
     }
+    this.socket = null;
   }
-  
+
 }
