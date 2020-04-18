@@ -6,10 +6,17 @@ import {AppComponent} from './app.component';
 import {TestBlockComponent} from './test-block/test-block.component';
 import {HttpClientModule} from '@angular/common/http';
 
+import { HtmlPipe } from './login/login.pipe';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+
 @NgModule({
   declarations: [
     AppComponent,
-    TestBlockComponent
+    HtmlPipe,
+    TestBlockComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
