@@ -36,21 +36,30 @@ export class MessengerApiService {
   }
 
   createMessage(sessionId: string, userId: string, chatId: string, type: string, message: string) {
+    const timeNow = Date.now();
     return this.http
-      .post(url + '/message', {
+      .post(url + '/messages', {
         sessionId,
         userId,
         chatId,
         type,
         content: message,
-        time: Date.now()
+        time: timeNow
       }, {headers})
       .pipe(catchError(MessengerApiService.handleError));
   }
 
+  getMessage(sessionId, userId, chatId) {
+    return this.http
+      .post(url + '/messages/' + chatId, {
+        sessionId,
+        userId
+      });
+  }
+
   createUser(username: string, password: string, nickname: string) {
     return this.http
-      .post(url + '/register', {
+      .post(url + '/users', {
         username,
         password,
         nickname
@@ -62,7 +71,7 @@ export class MessengerApiService {
     const users = others;
     users.unshift(userId);
     return this.http
-      .post(url + '/chat', {
+      .post(url + '/chats', {
         sessionId,
         chatName,
         users
@@ -72,7 +81,7 @@ export class MessengerApiService {
 
   tryLogin(username: string, password: string) {
     return this.http
-      .post(url + '/login', {username, password}, {headers})
+      .post(url + '/users/login', {username, password}, {headers})
       .pipe(catchError(MessengerApiService.handleError));
   }
 

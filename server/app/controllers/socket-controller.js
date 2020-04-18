@@ -47,7 +47,8 @@ const controller = (io) => {
                         throw new Error('Null Chat!')
                     }
                     doc.users.forEach((user) => {
-                        users.push('' + user);
+                        if (user !== userId)
+                            users.push('' + user);
                     });
 
                     users.forEach((user) => {
@@ -62,6 +63,7 @@ const controller = (io) => {
                             }
                         }
                     });
+                    socket.emit('sent', 'Message sent to chat!');
                 }).catch((error) => {
                     socket.emit('error', error.message);
                 });
