@@ -19,7 +19,7 @@ export class TestBlockComponent implements OnInit {
         console.log(doc);
         const socket = socketIo('http://localhost:777');// localhost:777?user={userId}
         socket.on('message', data => console.log(data));
-        socket.emit('login', doc.userId, doc.sessionId);
+        //socket.emit('login', doc.userId, doc.sessionId);
         // const socket = socketIo('http://localhost:777');
         // socket.emit('login', '6ecf83a8-60c9-a9e3-2916-af2c9f57d87f', sessionId);
         // socket.on('message', data => console.log(data));
