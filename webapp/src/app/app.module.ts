@@ -11,6 +11,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {RegisterComponent} from './register/register.component';
 import {NbThemeModule, NbLayoutModule, NbSidebarModule, NbButtonModule, NbSidebarService} from '@nebular/theme';
 import {NbEvaIconsModule} from '@nebular/eva-icons';
+import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {NbEvaIconsModule} from '@nebular/eva-icons';
     // HtmlPipe,
     TestBlockComponent,
     // LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    WelcomePageComponent
   ],
   imports: [
     BrowserModule,
