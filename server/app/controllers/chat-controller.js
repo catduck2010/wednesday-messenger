@@ -7,41 +7,18 @@ const chatService = require('../services/chat-service'),
     common = require('../helper/common'),
     renderErrorResponse = common.renderErrorResponse;
 
-let sessionCheck = (sessionId, req, res, statusCode) => {
-    if (userMap.session(sessionId) === null) {
-        res.status(statusCode);
-        res.json({
-            message: 'Access Denied'
-        });
-        return false;
-    }
-    return true;
-};
-
-const sessionGenuine = (sessionId) => {
-    return new Promise((resolve) => {
-        if (userMap.session(sessionId) === null) {
-            throw new Error('Access Denied');
-        } else {
-            resolve();
-        }
-    });
-}
-
 exports.newMessage = (req, res) => {
     const sessionId = req.body.sessionId;
     //if (sessionCheck(sessionId, req, res, 403)) {
-    const item = Object.assign({}, res.body);
+    const item = Object.assign({}, req.body);
     item._id = common.uuid();
     const trySession = userMap.genuine(sessionId, item.userId);
     const promise = chatService.get(item.chatId);
     trySession
         .then(() => promise)
         .then((doc) => {
-            if (userMap.session(sessionId) === null) {
-                throw new Error('Access Denied');
-            }
             if (doc === null || doc === undefined) {
+                console.log(doc);
                 throw new Error('Sending message to a null chat.');
             } else {
                 return messageService.create(item);
@@ -58,7 +35,7 @@ exports.newMessage = (req, res) => {
 exports.newChat = (req, res) => {
     const sessionId = req.body.sessionId, userId = req.body.userId;
     //if (sessionCheck(sessionId, req, res, 403)) {
-    const item = Object.assign({}, res.body);
+    const item = Object.assign({}, req.body);
     item._id = common.uuid();
     const trySession = userMap.genuine(sessionId, userId);
     const promise = chatService.create(item);

@@ -44,10 +44,10 @@ exports.remove = (socketId) => {
 
 exports.genuine = (sessionId, userId) => {
     return new Promise((resolve) => {
-        if (trySession(sessionId) === null || sessionMap.get(userId) !== sessionId) {
-            throw new Error('Access Denied');
-        } else {
+        if (trySession(sessionId) === userId) {
             resolve();
+        } else {
+            throw new Error('Access Denied');
         }
     });
 }

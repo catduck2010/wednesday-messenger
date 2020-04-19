@@ -15,4 +15,9 @@ let messageSchema = new Schema({
     time: {type: Date, default: Date.now()}
 });
 
+messageSchema.virtual('id').get(() => this._id.toString());
+messageSchema.set('toJSON', {
+    virutals: true
+})
+
 module.exports = mongoose.model('Message', messageSchema);

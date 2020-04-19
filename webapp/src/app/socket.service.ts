@@ -37,6 +37,12 @@ export class SocketService {
     return this.socket;
   }
 
+  legacyConnect(userId) {
+    const uri = this.url + userId;
+    this.socket = socketIo.connect(uri);
+    return this.socket;
+  }
+
   setEventHandler(event: string, handler: any) { // handler: need a function
     if (this.socket && this.socket.connected) {
       this.socket.on(event, handler);

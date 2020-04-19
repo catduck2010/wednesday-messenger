@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
+import {LoginResponse} from './login-response';
+import {Message} from "./message";
 
 const url = 'http://localhost:777';
 const headers = new HttpHeaders()
@@ -23,7 +25,7 @@ export class MessengerApiService {
   private static handleError(error: Response | any) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
+      console.error('An error occurred:',  error.error.message);
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
@@ -38,7 +40,7 @@ export class MessengerApiService {
   createMessage(sessionId: string, userId: string, chatId: string, type: string, message: string) {
     const timeNow = Date.now();
     return this.http
-      .post(url + '/messages', {
+      .post<Message>(url + '/messages', {
         sessionId,
         userId,
         chatId,
@@ -81,7 +83,7 @@ export class MessengerApiService {
 
   tryLogin(username: string, password: string) {
     return this.http
-      .post(url + '/users/login', {username, password}, {headers})
+      .post<LoginResponse>(url + '/users/login', {username, password}, {headers})
       .pipe(catchError(MessengerApiService.handleError));
   }
 
