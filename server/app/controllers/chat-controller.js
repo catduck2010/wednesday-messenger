@@ -54,6 +54,17 @@ exports.newChat = (req, res) => {
     //}
 };
 
+exports.getChatInfo = (req, res) => {
+    const chatId = req.params.chatId;
+    const promise = chatService.get(chatId);
+    promise
+        .then((doc) => {
+            res.status(201);
+            res.json(doc);
+        })
+        .catch(renderErrorResponse(res));
+};
+
 exports.getChatMessage = (req, res) => { // post
     const chatId = req.params.chatId, sessionId = req.body.sessionId, userId = req.body.userId;
     const trySession = userMap.genuine(sessionId, userId);

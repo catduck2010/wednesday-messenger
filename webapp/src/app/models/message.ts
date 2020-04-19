@@ -4,5 +4,5 @@ export interface Message {
   chatId: string;
   type: string;
   content: string;
-  time: Date;
+  time: string | Date; // convert this with new Date(<innerString>)
 }

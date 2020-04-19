@@ -2,8 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {LoginResponse} from './login-response';
-import {Message} from "./message";
+import {LoginResponse} from './models/login-response';
+import {Message} from './models/message';
+import {User} from './models/user';
+import {Chat} from './models/chat';
 
 const url = 'http://localhost:777';
 const headers = new HttpHeaders()
@@ -25,7 +27,7 @@ export class MessengerApiService {
   private static handleError(error: Response | any) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:',  error.error.message);
+      console.error('An error occurred:', error.error.message);
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
@@ -51,9 +53,9 @@ export class MessengerApiService {
       .pipe(catchError(MessengerApiService.handleError));
   }
 
-  getMessage(sessionId, userId, chatId) {
+  getMessage(sessionId, userId, messageId) {
     return this.http
-      .post(url + '/messages/' + chatId, {
+      .post<Message>(url + '/messages/' + messageId, {
         sessionId,
         userId
       });
@@ -61,7 +63,7 @@ export class MessengerApiService {
 
   createUser(username: string, password: string, nickname: string) {
     return this.http
-      .post(url + '/users', {
+      .post<User>(url + '/users', {
         username,
         password,
         nickname
@@ -73,7 +75,7 @@ export class MessengerApiService {
     const users = others;
     users.unshift(userId);
     return this.http
-      .post(url + '/chats', {
+      .post<Chat>(url + '/chats', {
         sessionId,
         chatName,
         users
@@ -85,6 +87,82 @@ export class MessengerApiService {
     return this.http
       .post<LoginResponse>(url + '/users/login', {username, password}, {headers})
       .pipe(catchError(MessengerApiService.handleError));
+  }
+
+  getUser(username: string) {
+    return this.http
+      .get<User>(url + '/users/' + username, {headers})
+      .pipe(catchError(MessengerApiService.handleError));
+  }
+
+  getUserById(userId: string) {
+    return this.http
+      .get<User>(url + '/users/id/' + userId, {headers})
+      .pipe(catchError(MessengerApiService.handleError));
+  }
+
+  updateUserById(sessionId: string, userId: string, item: User, password: string) {
+    return this.http
+      .put<User>(url + '/users/id/' + userId, {
+        userId,
+        sessionId,
+        username: item.username,
+        nickname: item.nickname,
+        password,
+        friendList: item.friendList,
+        blockList: item.blockList,
+        chatList: item.chatList
+      }, {headers})
+      .pipe(catchError(MessengerApiService.handleError));
+  }
+
+  deleteUserById(sessionId: string, userId: string) {
+    return this.http
+      .request<JSON>('delete', url + '/users/id/' + userId, {
+        body: {
+          sessionId,
+          userId
+        },
+        headers
+      }).pipe(catchError(MessengerApiService.handleError));
+  }
+
+  getChatMessages(sessionId: string, userId: string, chatId: string) {
+    return this.http
+      .post(url + '/chats/' + chatId, {
+        sessionId,
+        userId
+      }, {headers})
+      .pipe(catchError(MessengerApiService.handleError));
+
+  }
+
+  getChatInfo(chatId) {
+    return this.http
+      .get(url + '/chats/' + chatId, {headers})
+      .pipe(catchError(MessengerApiService.handleError));
+  }
+
+  updateChatById(sessionId: string, userId: string, chatId: string, item: Chat) {
+    return this.http
+      .put(url + '/chats/' + chatId, {
+        sessionId,
+        userId,
+        chatId,
+        chatName: item.chatName,
+        users: item.users
+      }, {headers})
+      .pipe(catchError(MessengerApiService.handleError));
+  }
+
+  deleteChatById(sessionId, userId, chatId) {
+    return this.http
+      .request('delete', url + '/chat/' + chatId, {
+        body: {
+          sessionId,
+          userId
+        }, headers
+      }).pipe(catchError(MessengerApiService.handleError));
   }
 
 }

@@ -2,16 +2,17 @@
 
 const userMap = new Map();
 const sessionMap = new Map();
-const ioMap = new Map();
+const socketMap = new Map();
 
 exports.put = (userId, socketId, sessionId) => {
+    remove(userId);
     console.log(`putting ${userId}, ${socketId}, ${sessionId}...`);
     userMap.set(userId, {
         socketId: socketId,
         sessionId: sessionId
     });
     sessionMap.set(sessionId, userId);
-    ioMap.set(socketId, userId);
+    socketMap.set(socketId, userId);
 };
 
 const get = (userId) => {
@@ -20,6 +21,15 @@ const get = (userId) => {
         return [data.socketId, data.sessionId]
     } else {
         return [null, null];
+    }
+};
+
+const remove = (userId) => {
+    if (userMap.has(userId)) {
+        const doc = userMap.get(userId);
+        sessionMap.delete(doc.sessionId);
+        socketMap.delete(doc.socketId);
+        userMap.delete(userId);
     }
 };
 
@@ -33,9 +43,9 @@ exports.session = trySession;
 exports.checkOnline = checkOnline;
 
 exports.remove = (socketId) => {
-    if (ioMap.has(socketId)) {
-        const userId = ioMap.get(socketId);
-        ioMap.delete(socketId);
+    if (socketMap.has(socketId)) {
+        const userId = socketMap.get(socketId);
+        socketMap.delete(socketId);
         const sessionId = userMap.get(userId).sessionId;
         userMap.delete(userId);
         sessionMap.delete(sessionId);
