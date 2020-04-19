@@ -139,7 +139,7 @@ export class MessengerApiService {
 
   getChatInfo(chatId) {
     return this.http
-      .get(url + '/chats/' + chatId, {headers})
+      .get<Chat>(url + '/chats/' + chatId, {headers})
       .pipe(catchError(MessengerApiService.handleError));
   }
 
