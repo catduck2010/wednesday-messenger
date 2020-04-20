@@ -6,9 +6,10 @@ import {SocketService} from './socket.service';
   providedIn: 'root'
 })
 export class GrandService {
-  private loggedIn = false;
+  loggedIn = false;
   private userId: string;
   private sessionId: string;
+  socket: SocketIOClient.Socket;
 
   constructor(private api: MessengerApiService, private skt: SocketService) {
   }
@@ -19,6 +20,8 @@ export class GrandService {
         (doc) => {
           this.userId = doc.userId;
           this.sessionId = doc.sessionId;
+          this.loggedIn = true;
+          this.socket = this.skt.legacyConnect(this.userId);
         },
         () => {
           alert('Incorrect username or password');
@@ -26,6 +29,16 @@ export class GrandService {
         () => {
 
         });
+  }
+
+  getInfo() {
+    return this.loggedIn ? {
+      userId: this.userId,
+      sessionId: this.sessionId
+    } : {
+      userId: null,
+      sessionId: null
+    };
   }
 
 

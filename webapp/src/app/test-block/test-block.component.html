@@ -16,15 +16,32 @@
   </nb-sidebar>
 
   <nb-layout-column>
-    <nb-layout>
-      <nb-layout-header>
+<!--    <nb-layout>-->
+<!--      <nb-layout-header>-->
 
-      </nb-layout-header>
-      <nb-layout-footer>
-        <textarea nbInput [(ngModel)]="text"></textarea>
-        <button nbButton>Hello World</button>
-      </nb-layout-footer>
-    </nb-layout>
+<!--      </nb-layout-header>-->
+<!--      <nb-layout-footer>-->
+<!--        <textarea nbInput [(ngModel)]="text"></textarea>-->
+<!--        <button nbButton>Hello World</button>-->
+<!--      </nb-layout-footer>-->
+<!--    </nb-layout>-->
+    <nb-chat>
+      <nb-chat-message *ngFor="let msg of messages"
+                       [type]="msg.type"
+                       [message]="msg.text"
+                       [reply]="msg.reply"
+                       [sender]="msg.user.name"
+                       [date]="msg.date"
+                       [files]="msg.files"
+                       [quote]="msg.quote"
+                       [latitude]="msg.latitude"
+                       [longitude]="msg.longitude"
+                       [avatar]="msg.user.avatar">
+      </nb-chat-message>
+      <nb-chat-form showButton="true">
+      </nb-chat-form>
+
+    </nb-chat>
 
   </nb-layout-column>
 </nb-layout>

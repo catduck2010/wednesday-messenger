@@ -99,6 +99,7 @@ export class LoginComponent implements OnInit {
           if (this.userId !== null && this.sessionId !== null) {
             this.skt.legacyConnect(this.userId);
             console.log('Connected');
+
           }
         }
       );

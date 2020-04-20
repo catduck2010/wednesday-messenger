@@ -17,11 +17,14 @@ import {
   NbSidebarModule,
   NbButtonModule,
   NbSidebarService,
-  NbTabsetModule, NbContextMenuModule, NbMenuService, NbInputModule
+  NbTabsetModule, NbContextMenuModule, NbMenuService, NbInputModule, NbDialogModule, NbChatModule, NbUserModule
 } from '@nebular/theme';
 import {NbEvaIconsModule} from '@nebular/eva-icons';
 import {WelcomePageComponent} from './welcome-page/welcome-page.component';
 import {FormsModule} from "@angular/forms";
+import { ChatComponent } from './chat/chat.component';
+import { ChatListComponent } from './chat-list/chat-list.component';
+import { FriendListComponent } from './friend-list/friend-list.component';
 
 
 @NgModule({
@@ -32,7 +35,10 @@ import {FormsModule} from "@angular/forms";
     TestBlockComponent,
     LoginComponent,
     RegisterComponent,
-    WelcomePageComponent
+    WelcomePageComponent,
+    ChatComponent,
+    ChatListComponent,
+    FriendListComponent
 
   ],
   imports: [
@@ -40,6 +46,7 @@ import {FormsModule} from "@angular/forms";
     AppRoutingModule,
     HttpClientModule,
     NbThemeModule.forRoot({name: 'default'}),
+    NbDialogModule.forRoot(),
     NbLayoutModule,
     NbEvaIconsModule,
     NbSidebarModule,
@@ -47,7 +54,9 @@ import {FormsModule} from "@angular/forms";
     FormsModule,
     NbTabsetModule,
     NbContextMenuModule,
-    NbInputModule
+    NbInputModule,
+    NbChatModule,
+    NbUserModule
   ],
   providers: [NbSidebarService, NbMenuService],
   bootstrap: [AppComponent]

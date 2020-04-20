@@ -10,6 +10,10 @@ exports.search = username => {
     return User.findOne({username: username}).exec();
 };
 
+exports.find = params =>{
+    return User.find(params).exec();
+}
+
 exports.get = userId => {
     return User.findById(userId).exec();
 };

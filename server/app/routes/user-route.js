@@ -15,4 +15,8 @@ module.exports = app => {
         .get(userCtrl.getById)
         .put(userCtrl.updateById)
         .delete(userCtrl.deleteById);
+    app.route('/users/id/:userId/chats')
+        .get(userCtrl.getAllChatsInfo);
+    app.route('/users/id/:userId/friends')
+        .get(userCtrl.getAllFriendsInfo);
 };

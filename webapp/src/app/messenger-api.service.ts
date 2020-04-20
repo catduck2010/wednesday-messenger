@@ -129,7 +129,7 @@ export class MessengerApiService {
 
   getChatMessages(sessionId: string, userId: string, chatId: string) {
     return this.http
-      .post(url + '/chats/' + chatId, {
+      .post<Message[]>(url + '/chats/' + chatId, {
         sessionId,
         userId
       }, {headers})
@@ -163,6 +163,18 @@ export class MessengerApiService {
           userId
         }, headers
       }).pipe(catchError(MessengerApiService.handleError));
+  }
+
+  getFriendsInfo(userId) {
+    return this.http
+      .get<User[]>(url + '/users/id/' + userId + '/friends', {headers})
+      .pipe(catchError(MessengerApiService.handleError));
+  }
+
+  getChatsInfo(userId) {
+    return this.http
+      .get<Chat[]>(url + '/users/id/' + userId + '/chats', {headers})
+      .pipe(catchError(MessengerApiService.handleError));
   }
 
 }
