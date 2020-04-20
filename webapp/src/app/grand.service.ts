@@ -6,6 +6,7 @@ import {SocketService} from './socket.service';
   providedIn: 'root'
 })
 export class GrandService {
+  private loggedIn = false;
   private userId: string;
   private sessionId: string;
 
@@ -26,4 +27,6 @@ export class GrandService {
 
         });
   }
+
+
 }

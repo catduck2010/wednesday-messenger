@@ -1,7 +1,7 @@
 <nb-layout>
   <nb-layout-header fixed>
     Company Name
-    <button [nbContextMenu]="items" [nbContextMenuPlacement]="right">MY PROFILE</button>
+    <button nbButton [nbContextMenu]="items" >MY PROFILE</button>
   </nb-layout-header>
 
   <nb-sidebar>
@@ -21,7 +21,7 @@
 
       </nb-layout-header>
       <nb-layout-footer>
-        <textarea [(ngModel)]="text"></textarea>
+        <textarea nbInput [(ngModel)]="text"></textarea>
         <button nbButton>Hello World</button>
       </nb-layout-footer>
     </nb-layout>
