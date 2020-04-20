@@ -1,9 +1,30 @@
 <nb-layout>
-  <nb-layout-header fixed>Company Name</nb-layout-header>
+  <nb-layout-header fixed>
+    Company Name
+    <button [nbContextMenu]="items" [nbContextMenuPlacement]="right">MY PROFILE</button>
+  </nb-layout-header>
 
-  <nb-sidebar>Sidebar Content</nb-sidebar>
+  <nb-sidebar>
+    <nb-tabset>
+      <nb-tab tabTitle="Chats">
+
+      </nb-tab>
+      <nb-tab tabTitle="Friends">
+
+      </nb-tab>
+    </nb-tabset>
+  </nb-sidebar>
 
   <nb-layout-column>
-    Page Content <button nbButton>Hello World</button>
+    <nb-layout>
+      <nb-layout-header>
+
+      </nb-layout-header>
+      <nb-layout-footer>
+        <textarea [(ngModel)]="text"></textarea>
+        <button nbButton>Hello World</button>
+      </nb-layout-footer>
+    </nb-layout>
+
   </nb-layout-column>
 </nb-layout>

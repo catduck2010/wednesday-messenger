@@ -9,11 +9,16 @@ import {SocketService} from '../socket.service';
   styleUrls: ['./test-block.component.scss']
 })
 export class TestBlockComponent implements OnInit {
+  items: any;
+  right: any;
+  text: string;
 
   constructor(private api: MessengerApiService, private socketService: SocketService) {
   }
 
   ngOnInit(): void {
+    this.items = [{title: 'Log Out'}];
+    this.right = 'right';
     this.api.tryLogin('zawarudo', 'zawarudo')
       .subscribe((doc) => {
         const obj = {

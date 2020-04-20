@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {MessengerApiService} from '../messenger-api.service';
+import {SocketService} from '../socket.service';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +10,7 @@ import {Component, OnInit} from '@angular/core';
 export class LoginComponent implements OnInit {
 
 
-  constructor() {
+  constructor(private api: MessengerApiService, private skt: SocketService) {
   }
 
   content = '<div class="form-wrapper">' +
@@ -80,9 +82,26 @@ export class LoginComponent implements OnInit {
     '</form>' +
 
     '</div>';
+  password: string;
+  username: string;
+  private userId: string;
+  private sessionId: string;
 
 
   ngOnInit(): void {
+  }
+
+  login() {
+    this.api.tryLogin(this.username, this.password)
+      .subscribe((doc) => {
+          this.userId = doc.userId;
+          this.sessionId = doc.sessionId;
+          if (this.userId !== null && this.sessionId !== null) {
+            this.skt.legacyConnect(this.userId);
+            console.log('Connected');
+          }
+        }
+      );
   }
 
 }

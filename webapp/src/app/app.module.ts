@@ -10,9 +10,17 @@ import {HtmlPipe} from './login/login.pipe';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 
-import {NbThemeModule, NbLayoutModule, NbSidebarModule, NbButtonModule, NbSidebarService} from '@nebular/theme';
+import {
+  NbThemeModule,
+  NbLayoutModule,
+  NbSidebarModule,
+  NbButtonModule,
+  NbSidebarService,
+  NbTabsetModule, NbContextMenuModule, NbMenuService
+} from '@nebular/theme';
 import {NbEvaIconsModule} from '@nebular/eva-icons';
-import { WelcomePageComponent } from './welcome-page/welcome-page.component';
+import {WelcomePageComponent} from './welcome-page/welcome-page.component';
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -33,9 +41,12 @@ import { WelcomePageComponent } from './welcome-page/welcome-page.component';
     NbLayoutModule,
     NbEvaIconsModule,
     NbSidebarModule,
-    NbButtonModule
+    NbButtonModule,
+    FormsModule,
+    NbTabsetModule,
+    NbContextMenuModule
   ],
-  providers: [NbSidebarService],
+  providers: [NbSidebarService, NbMenuService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
