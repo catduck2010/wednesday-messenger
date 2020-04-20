@@ -94,8 +94,10 @@ exports.getById = (req, res) => {
 exports.updateById = (req, res) => {
     const userId = req.params.userId,
         sessionId = req.body.sessionId,
+        password = req.body.password,
         item = Object.assign({}, req.body);
     item._id = userId;
+    item.password = common.hashPassword(password);
     const promise = userService.get(userId);
     promise
         .then((doc) => {

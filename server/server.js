@@ -5,8 +5,11 @@ const app = require("express")(),
     server = require('http').createServer(app),
     ioCtrl = require('./app/controllers/socket-controller'),
     io = require('socket.io').listen(server);
+
+// use by Docker
 // docker pull mongo:4.2.5-bionic
 // docker run --name mymongo -p 27017:27017 -v ~/.mongo/db:/data/db -d mongo:4.2.5-bionic
+
 mongoose.connect('mongodb://localhost:27017/messenger', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -24,7 +27,7 @@ app.use(bodyParser.json());
 
 //Enabling CORS
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader('Access-Control-Allow-Methods',
         'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers',

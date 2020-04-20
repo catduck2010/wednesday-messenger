@@ -1,6 +1,6 @@
-@import url(../../dist/fonts/inter-ui/inter.css);
-@import url(../../dist/icons/themify/themify-icons.css);
-@import url(../../dist/icons/font-awesome/css/font-awesome.min.css);
+@import url(src/app/dist/fonts/inter-ui/inter.css);
+@import url(src/app/dist/icons/themify/themify-icons.css);
+@import url(src/app/dist/icons/font-awesome/css/font-awesome.min.css);
 .bg-primary {
   background: #0a80ff !important;
   color: white !important;

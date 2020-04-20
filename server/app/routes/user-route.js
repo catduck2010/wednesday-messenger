@@ -5,13 +5,13 @@ const userCtrl = require('../controllers/user-controller');
 module.exports = app => {
     app.route('/uuid')
         .get(userCtrl.uuid);
-    app.route('/register')
+    app.route('/users')
         .post(userCtrl.register);
-    app.route('/login')
+    app.route('/users/login')
         .post(userCtrl.verify);
-    app.route('/user/:username')
+    app.route('/users/:username')
         .get(userCtrl.getByUsername);
-    app.route('/user/id/:userId')
+    app.route('/users/id/:userId')
         .get(userCtrl.getById)
         .put(userCtrl.updateById)
         .delete(userCtrl.deleteById);

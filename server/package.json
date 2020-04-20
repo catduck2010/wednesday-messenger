@@ -13,6 +13,7 @@
     "body-parser": "latest",
     "express": "latest",
     "mongoose": "^5.9.7",
+    "multer": "^1.4.2",
     "socket.io": "^2.3.0"
   }
 }

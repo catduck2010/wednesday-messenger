@@ -12,4 +12,9 @@ let chatSchema = new Schema({
     users: [{type: String, ref: 'User'}] // userId
 });
 
+chatSchema.virtual('id').get(() => this._id.toString());
+chatSchema.set('toJSON', {
+    virutals: true
+})
+
 module.exports = mongoose.model('Chat', chatSchema);
