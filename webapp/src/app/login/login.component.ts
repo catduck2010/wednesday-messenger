@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {MessengerApiService} from '../messenger-api.service';
 import {SocketService} from '../socket.service';
+import {Router} from '@angular/router';
+import {GrandService} from '../grand.service';
 
 @Component({
   selector: 'app-login',
@@ -9,8 +11,7 @@ import {SocketService} from '../socket.service';
 })
 export class LoginComponent implements OnInit {
 
-
-  constructor(private api: MessengerApiService, private skt: SocketService) {
+  constructor(private router: Router, private grand: GrandService, private api: MessengerApiService, private skt: SocketService) {
   }
 
   content = '<div class="form-wrapper">' +
@@ -92,17 +93,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.api.tryLogin(this.username, this.password)
-      .subscribe((doc) => {
-          this.userId = doc.userId;
-          this.sessionId = doc.sessionId;
-          if (this.userId !== null && this.sessionId !== null) {
-            this.skt.legacyConnect(this.userId);
-            console.log('Connected');
-
-          }
-        }
-      );
+    this.grand.login(this.username, this.password);
   }
 
 }

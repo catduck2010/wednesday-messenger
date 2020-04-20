@@ -1,30 +1,30 @@
 <nb-layout>
   <nb-layout-header fixed>
     Company Name
-    <button nbButton [nbContextMenu]="items" >MY PROFILE</button>
+    <button nbButton [nbContextMenu]="items">MY PROFILE</button>
   </nb-layout-header>
 
   <nb-sidebar>
     <nb-tabset>
       <nb-tab tabTitle="Chats">
-
+        <app-chat-list></app-chat-list>
       </nb-tab>
       <nb-tab tabTitle="Friends">
-
+        <app-friend-list></app-friend-list>
       </nb-tab>
     </nb-tabset>
   </nb-sidebar>
 
   <nb-layout-column>
-<!--    <nb-layout>-->
-<!--      <nb-layout-header>-->
+    <!--    <nb-layout>-->
+    <!--      <nb-layout-header>-->
 
-<!--      </nb-layout-header>-->
-<!--      <nb-layout-footer>-->
-<!--        <textarea nbInput [(ngModel)]="text"></textarea>-->
-<!--        <button nbButton>Hello World</button>-->
-<!--      </nb-layout-footer>-->
-<!--    </nb-layout>-->
+    <!--      </nb-layout-header>-->
+    <!--      <nb-layout-footer>-->
+    <!--        <textarea nbInput [(ngModel)]="text"></textarea>-->
+    <!--        <button nbButton>Hello World</button>-->
+    <!--      </nb-layout-footer>-->
+    <!--    </nb-layout>-->
     <nb-chat>
       <nb-chat-message *ngFor="let msg of messages"
                        [type]="msg.type"

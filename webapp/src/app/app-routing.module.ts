@@ -4,12 +4,13 @@ import {LoginComponent} from './login/login.component';
 import {TestBlockComponent} from './test-block/test-block.component';
 import {WelcomePageComponent} from './welcome-page/welcome-page.component';
 import {RegisterComponent} from './register/register.component';
+import {LoginGuard} from './login.guard';
 
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'index', component: TestBlockComponent},
+  {path: 'index', component: TestBlockComponent, canActivate: [LoginGuard]},
   {path: 'welcome', component: WelcomePageComponent},
   {
     path: '',
