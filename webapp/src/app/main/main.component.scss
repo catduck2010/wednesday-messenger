@@ -1,0 +1,15 @@
+nb-user:hover {
+  background: lightgrey;
+  transition: 0.3s;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+nb-user {
+  padding: 5px;
+  transition: 0.3s;
+  width: available;
+}
+.right{
+  justify-content: flex-end;
+}

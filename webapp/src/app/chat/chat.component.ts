@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {GrandService} from '../grand.service';
 import {MessengerApiService} from '../messenger-api.service';
 import {User} from '../models/user';
 import {Message} from '../models/message';
+import {Chat} from '../models/chat';
 
 @Component({
   selector: 'app-chat',
@@ -10,6 +11,7 @@ import {Message} from '../models/message';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
+  @Input() chat: Chat;
   people: User[];
   messages: any[];
   chatId: string;
@@ -20,6 +22,8 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.chatId = this.chat._id;
+    // this.people = this.chat.users;
     this.userMap = new Map<string, User>();
     this.messageMap = new Map<string, Message>();
     this.people.forEach(person => {

@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {TestBlockComponent} from './test-block/test-block.component';
+import {MainComponent} from './main/main.component';
 import {HttpClientModule} from '@angular/common/http';
 
 import {HtmlPipe} from './login/login.pipe';
@@ -17,14 +17,20 @@ import {
   NbSidebarModule,
   NbButtonModule,
   NbSidebarService,
-  NbTabsetModule, NbContextMenuModule, NbMenuService, NbInputModule, NbDialogModule, NbChatModule, NbUserModule
+  NbTabsetModule,
+  NbContextMenuModule,
+  NbMenuService,
+  NbInputModule,
+  NbDialogModule,
+  NbChatModule,
+  NbUserModule,
+  NbToastrModule, NbMenuModule
 } from '@nebular/theme';
 import {NbEvaIconsModule} from '@nebular/eva-icons';
 import {WelcomePageComponent} from './welcome-page/welcome-page.component';
-import {FormsModule} from "@angular/forms";
-import { ChatComponent } from './chat/chat.component';
-import { ChatListComponent } from './chat-list/chat-list.component';
-import { FriendListComponent } from './friend-list/friend-list.component';
+import {FormsModule} from '@angular/forms';
+import {ChatComponent} from './chat/chat.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -32,22 +38,21 @@ import { FriendListComponent } from './friend-list/friend-list.component';
     AppComponent,
     HtmlPipe,
     HtmlPipe1,
-    TestBlockComponent,
+    MainComponent,
     LoginComponent,
     RegisterComponent,
     WelcomePageComponent,
     ChatComponent,
-    ChatListComponent,
-    FriendListComponent
-
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     NbThemeModule.forRoot({name: 'default'}),
+    NbMenuModule.forRoot(),
     NbDialogModule.forRoot(),
     NbLayoutModule,
+    NbToastrModule.forRoot(),
     NbEvaIconsModule,
     NbSidebarModule,
     NbButtonModule,
@@ -56,7 +61,8 @@ import { FriendListComponent } from './friend-list/friend-list.component';
     NbContextMenuModule,
     NbInputModule,
     NbChatModule,
-    NbUserModule
+    NbUserModule,
+    BrowserAnimationsModule
   ],
   providers: [NbSidebarService, NbMenuService],
   bootstrap: [AppComponent]

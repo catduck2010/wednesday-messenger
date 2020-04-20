@@ -1,0 +1,29 @@
+<nb-layout>
+  <nb-layout-header fixed>
+    Wednesday Messenger
+<!--    <button nbButton [nbContextMenu]="items">MY PROFILE</button>-->
+    <nb-user nbButton class="right" [nbContextMenu]="items"></nb-user>
+  </nb-layout-header>
+
+  <nb-sidebar>
+    <nb-tabset>
+      <nb-tab tabTitle="Chats">
+        <nb-user *ngFor="let c of chats"
+                 [name]="c.chatName"
+                 [title]=""
+                 (click)="openChat(c)">
+        </nb-user>
+      </nb-tab>
+      <nb-tab tabTitle="Friends">
+        <nb-user *ngFor="let user of friends"
+                 [name]="user.nickname"
+                 [title]="user.username">
+        </nb-user>
+      </nb-tab>
+    </nb-tabset>
+  </nb-sidebar>
+
+  <nb-layout-column>
+    <router-outlet></router-outlet>
+  </nb-layout-column>
+</nb-layout>
