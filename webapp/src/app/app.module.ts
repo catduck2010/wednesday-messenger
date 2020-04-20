@@ -7,6 +7,7 @@ import {TestBlockComponent} from './test-block/test-block.component';
 import {HttpClientModule} from '@angular/common/http';
 
 import {HtmlPipe} from './login/login.pipe';
+import {HtmlPipe1} from './register/register.pipe';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 
@@ -27,6 +28,7 @@ import {FormsModule} from "@angular/forms";
   declarations: [
     AppComponent,
     HtmlPipe,
+    HtmlPipe1,
     TestBlockComponent,
     LoginComponent,
     RegisterComponent,
