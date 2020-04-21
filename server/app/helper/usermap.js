@@ -1,5 +1,5 @@
 'use strict';
-
+//define objects
 const userMap = new Map();
 const sessionMap = new Map();
 const socketMap = new Map();

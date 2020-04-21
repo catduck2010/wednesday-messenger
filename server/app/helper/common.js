@@ -1,5 +1,5 @@
 'use strict';
-
+//define objects
 const pbkdf2 = require('./pbkdf2');
 
 exports.uuid = () => {

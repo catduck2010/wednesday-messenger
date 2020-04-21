@@ -1,5 +1,6 @@
 'use strict';
 require('../models/index');
+//define objects
 const userMap = require('../helper/usermap');
 const chatService = require('../services/chat-service'),
     userService = require('../services/user-service');
