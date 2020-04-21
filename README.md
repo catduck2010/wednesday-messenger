@@ -2,14 +2,14 @@
 # Team Wednesday's Final Project
 * Asynchronous JavaScript: Message 
 
-#### Members `{zhou.liha, liu.bo2, chen.jiey, tong.xi}@husky.neu.edu`
+## Members `{zhou.liha, liu.bo2, chen.jiey, tong.xi}@husky.neu.edu`
 * 001302072 Lihang Zhou
 * 001057068 Bo Liu
 * 001398614 Jieying Chen
 * 001306762 Xing Tong
 
 ## Project Description : 
-*   Our project is a message  application. We provide a plateform for peole to chat online with friends and communicate in groups. Here is the specific functions of our app.
+*   Our project is a message application. We provide a plateform for peole to chat online with friends and communicate in groups. Here is the specific functions of our app.
 
 * For users:
 1. Resgister account
@@ -19,15 +19,7 @@
 5. Chat in groups
 6. View personal profile
 
-* For coaches:
-1. Add videos
-2. Delete videos
-3. View my videos
-4. View followers video and their vidoes
-5. View all the comments and reply the comment.
-
-
-#### Tech 
+## Implement Tech 
 * JavaScript
 * Scss
 * Angular
@@ -35,7 +27,7 @@
 * MongoDB
 * @angular/cli
 
-#### Project Guideline：
+## Project Guideline：
 * STEPS:
 1. Open a git bash shell
 2. Execute a command "git clone https://github.com/neu-mis-info6150-spring-2020/final-project-wednesday.git"
