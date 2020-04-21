@@ -96,9 +96,10 @@ exports.updateById = (req, res) => {
     const userId = req.params.userId,
         sessionId = req.body.sessionId,
         password = req.body.password,
+        newPassword = req.body.newPassword,
         item = Object.assign({}, req.body);
     item._id = userId;
-    item.password = common.hashPassword(password);
+    let userDoc = null;
     const promise = userService.get(userId);
     promise
         .then((doc) => {
@@ -107,8 +108,20 @@ exports.updateById = (req, res) => {
             } else if (doc.sessionId !== sessionId) {
                 throw new Error('Access Denied');
             } else {
-                return userService.update(item);
+                userDoc = doc;
+                return common.password(password, doc.password);
             }
+        })
+        .then((flag) => {
+            if (flag) {
+                return common.hashPassword(newPassword);
+            } else {
+                throw new Error('Wrong Password!');
+            }
+        })
+        .then((pw)=>{
+            item.password = pw;
+            return userService.update(item);
         })
         .then(() => {
             return userService.get(userId);
@@ -157,7 +170,7 @@ exports.getAllChatsInfo = (req, res) => {
         })
 }
 
-exports.getAllFriendsInfo = (req,res)=>{
+exports.getAllFriendsInfo = (req, res) => {
     const userId = req.params.userId;
     const promise = userService.get(userId);
     promise

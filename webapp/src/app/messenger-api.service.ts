@@ -103,7 +103,7 @@ export class MessengerApiService {
       .pipe(catchError(MessengerApiService.handleError));
   }
 
-  updateUserById(sessionId: string, userId: string, item: User, password: string) {
+  updateUserById(sessionId: string, userId: string, item: User, password: string, newPassword: string) {
     return this.http
       .put<User>(url + '/users/id/' + userId, {
         userId,
@@ -111,6 +111,7 @@ export class MessengerApiService {
         username: item.username,
         nickname: item.nickname,
         password,
+        newPassword,
         friendList: item.friendList,
         blockList: item.blockList,
         chatList: item.chatList
@@ -177,6 +178,16 @@ export class MessengerApiService {
     return this.http
       .get<Chat[]>(url + '/users/id/' + userId + '/chats', {headers})
       .pipe(catchError(MessengerApiService.handleError));
+  }
+
+  deleteMessageById(sessionId, userId, messageId) {
+    return this.http
+      .request<{ message: string }>('delete', url + '/messages/' + messageId, {
+        body: {
+          sessionId,
+          userId
+        }, headers
+      }).pipe(catchError(MessengerApiService.handleError));
   }
 
 }

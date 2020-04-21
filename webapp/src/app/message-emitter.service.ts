@@ -7,6 +7,7 @@ import {Message} from './models/message';
 })
 export class MessageEmitterService {
   private messageAnnouncedSource = new Subject<Message>();
+  messageDeleteSource = new Subject<{ chatId: string, messageId: string }>();
 
   messageAnnounced = this.messageAnnouncedSource;
 
@@ -20,5 +21,9 @@ export class MessageEmitterService {
       userId: '',
       type: 'done'
     });
+  }
+
+  deleteMessage(msg: { chatId: string, messageId: string }) {
+    this.messageDeleteSource.next(msg);
   }
 }

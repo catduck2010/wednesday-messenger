@@ -24,14 +24,14 @@ import {
   NbDialogModule,
   NbChatModule,
   NbUserModule,
-  NbToastrModule, NbMenuModule, NbCardModule
+  NbToastrModule, NbMenuModule, NbCardModule, NbWindowService, NbWindowModule
 } from '@nebular/theme';
 import {NbEvaIconsModule} from '@nebular/eva-icons';
 import {WelcomePageComponent} from './welcome-page/welcome-page.component';
 import {FormsModule} from '@angular/forms';
 import {ChatComponent} from './chat/chat.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { ChatBlockDirective } from './chat-block.directive';
+import {ChatBlockDirective} from './chat-block.directive';
 
 
 @NgModule({
@@ -44,7 +44,7 @@ import { ChatBlockDirective } from './chat-block.directive';
     RegisterComponent,
     WelcomePageComponent,
     ChatComponent,
-    ChatBlockDirective,
+    ChatBlockDirective
   ],
   imports: [
     BrowserModule,
@@ -53,6 +53,7 @@ import { ChatBlockDirective } from './chat-block.directive';
     NbThemeModule.forRoot({name: 'default'}),
     NbMenuModule.forRoot(),
     NbDialogModule.forRoot(),
+    NbWindowModule.forRoot(),
     NbLayoutModule,
     NbToastrModule.forRoot(),
     NbEvaIconsModule,
@@ -67,7 +68,7 @@ import { ChatBlockDirective } from './chat-block.directive';
     BrowserAnimationsModule,
     NbCardModule
   ],
-  providers: [NbSidebarService, NbMenuService],
+  providers: [NbSidebarService, NbMenuService, NbWindowService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
