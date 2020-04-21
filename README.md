@@ -1,6 +1,6 @@
 # Web Design and User Experience :
 # Team Wednesday's Final Project
-* Asynchronous JavaScript: Message 
+* Asynchronous JavaScript: Message Web Application
 
 ## Members `{zhou.liha, liu.bo2, chen.jiey, tong.xi}@husky.neu.edu`
 * 001302072 Lihang Zhou
