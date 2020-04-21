@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
+// change styles through innerHTML
 @Pipe({
   name: 'html'
 })

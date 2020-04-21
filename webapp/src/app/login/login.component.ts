@@ -10,7 +10,7 @@ export class LoginComponent implements OnInit {
 
   constructor() {
   }
-
+// innerHTML
   content = '<div class="form-wrapper">' +
     '<div class="logo">' +
 

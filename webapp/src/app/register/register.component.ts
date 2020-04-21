@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class RegisterComponent implements OnInit {
 
   constructor() { }
-
+// innerHTML
   content = '<div class="form-wrapper">' +
   '<form>' +
   '<div class="form-group">' +
