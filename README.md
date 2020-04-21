@@ -19,7 +19,7 @@
 5. Chat in groups
 6. View personal profile
 
-## Implement Tech 
+## Implement Tech:
 * JavaScript
 * Scss
 * Angular
