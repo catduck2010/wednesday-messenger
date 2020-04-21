@@ -7,13 +7,16 @@ import {GrandService} from '../grand.service';
 import {NbMenuItem, NbMenuService, NbToastrService} from '@nebular/theme';
 import {filter, map} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import {ChatBlockDirective} from "../chat-block.directive";
-import {ChatComponent} from "../chat/chat.component";
+import {ChatBlockDirective} from '../chat-block.directive';
+import {ChatComponent} from '../chat/chat.component';
+import {MessageEmitterService} from '../message-emitter.service';
+import {Message} from '../models/message';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  styleUrls: ['./main.component.scss'],
+  providers: [MessageEmitterService]
 })
 export class MainComponent implements OnInit {
   ifShowChat = false;
@@ -35,11 +38,13 @@ export class MainComponent implements OnInit {
               private toastr: NbToastrService,
               private menuService: NbMenuService,
               private componentFactoryResolver: ComponentFactoryResolver,
+              private messageEmitter: MessageEmitterService,
               private router: Router
   ) {
   }
 
   ngOnInit(): void {
+    const info = this.grand.getInfo();
     this.items = [{title: 'Log Out'}];
     this.right = 'right';
     this.getFriends();
@@ -57,7 +62,17 @@ export class MainComponent implements OnInit {
           // });
         }
       });
+    this.grand.socket.on('new message', (chatId, messageId) => {
+      this.api.getMessage(info.sessionId, info.userId, messageId)
+        .subscribe((doc) => {
+          this.announce(doc);
+          this.popToastr(doc.content, `From ${this.userMap.get(doc.userId).nickname}:`);
+        });
+    });
+  }
 
+  private announce(message: Message) {
+    this.messageEmitter.newMessage(message);
   }
 
   getChats() {
@@ -113,6 +128,7 @@ export class MainComponent implements OnInit {
     );
     this.chatComponentRef.instance.chat = this.currentChat;
     this.chatComponentRef.instance.people = this.getPeople(this.currentChat);
+    this.chatComponentRef.instance.toastr = this.toastr;
   }
 
   private popToastr(message: string, title?: string) {

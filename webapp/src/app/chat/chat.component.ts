@@ -4,6 +4,9 @@ import {MessengerApiService} from '../messenger-api.service';
 import {User} from '../models/user';
 import {Message} from '../models/message';
 import {Chat} from '../models/chat';
+import {MessageEmitterService} from '../message-emitter.service';
+import {Subscription} from 'rxjs';
+import {NbToastrService} from '@nebular/theme';
 
 @Component({
   selector: 'app-chat',
@@ -14,17 +17,29 @@ import {Chat} from '../models/chat';
 export class ChatComponent implements OnInit {
   @Input() chat: Chat = null;
   @Input() people: User[] = [];
+  @Input() toastr: NbToastrService;
   messages: any[] = [];
   chatId: string;
   userId: string;
   private userMap: Map<string, User>;
   private messageMap: Map<string, object>;
+  private subscription: Subscription;
 
-  constructor(private grand: GrandService, private api: MessengerApiService) {
+  constructor(private grand: GrandService,
+              private api: MessengerApiService,
+              private messageEmitter: MessageEmitterService) {
+    this.subscription = messageEmitter.messageAnnounced$
+      .subscribe(message => {
+        if (message.chatId === this.chatId) {
+          const mg = this.messageHandler(message);
+          this.messages.push(mg);
+        }
+      });
   }
 
   ngOnInit(): void {
     this.init();
+
   }
 
   init() {
@@ -63,26 +78,33 @@ export class ChatComponent implements OnInit {
     this.api.getChatMessages(info.sessionId, info.userId, this.chatId)
       .subscribe(
         (doc) => {
+          this.toastr.primary('Loading Messages', 'Alert');
           doc.forEach((message) => {
             this.messageHandler(message);
           });
+          this.toastr.primary('Messages loaded', 'Alert');
         }
       );
   }
 
   messageHandler(message: Message) {
+    const item = this.messageConverter(message);
+    this.messages.push(item);
+  }
+
+  messageConverter(message: Message) {
     const item = {
       id: message._id,
       text: message.content,
       date: new Date(message.time),
-      files: null,
-      type: message.type,
+      type: 'text',
       reply: message.userId === this.userId,
       user: {
         name: this.userMap.get(message.userId).nickname
       }
     };
     this.messageMap.set(message._id, item);
-    this.messages.push(item);
+    return item;
   }
+
 }

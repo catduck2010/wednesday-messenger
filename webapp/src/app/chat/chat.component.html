@@ -4,12 +4,7 @@
                    [message]="msg.text"
                    [reply]="msg.reply"
                    [sender]="msg.user.name"
-                   [date]="msg.date"
-                   [files]="msg.files"
-                   [quote]="msg.quote"
-                   [latitude]="msg.latitude"
-                   [longitude]="msg.longitude"
-                   [avatar]="msg.user.avatar">
+                   [date]="msg.date">
   </nb-chat-message>
   <nb-chat-form (send)="create($event)" showButton="true">
   </nb-chat-form>
