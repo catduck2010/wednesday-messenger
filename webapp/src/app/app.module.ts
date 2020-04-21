@@ -59,8 +59,6 @@ import { ChatBlockDirective } from './chat-block.directive';
     NbEvaIconsModule,
     NbSidebarModule,
     NbButtonModule,
-<<<<<<< HEAD
-=======
     FormsModule,
     NbTabsetModule,
     NbContextMenuModule,
@@ -69,7 +67,6 @@ import { ChatBlockDirective } from './chat-block.directive';
     NbUserModule,
     BrowserAnimationsModule,
     NbCardModule
->>>>>>> master
   ],
   providers: [NbSidebarService, NbMenuService],
   bootstrap: [AppComponent]

@@ -10,14 +10,9 @@ import {SocketService} from '../socket.service';
 })
 export class RegisterComponent implements OnInit {
 
-<<<<<<< HEAD
-  constructor() { }
-// innerHTML
-=======
   constructor(private grand: GrandService, private api: MessengerApiService, private skt: SocketService) {
   }
 
->>>>>>> master
   content = '<div class="form-wrapper">' +
     '<form>' +
     '<div class="form-group">' +
