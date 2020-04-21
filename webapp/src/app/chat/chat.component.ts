@@ -23,7 +23,7 @@ import {NbToastrService} from '@nebular/theme';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() chat: Chat = null;
   @Input() people: User[] = [];
@@ -37,19 +37,16 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   constructor(private grand: GrandService,
               private api: MessengerApiService,
-              private messageEmitter: MessageEmitterService,
-              private zone: NgZone,
-              private appRef: ApplicationRef) {
-    this.subscription = messageEmitter.messageAnnounced$
+              private messageEmitter: MessageEmitterService) {
+    this.subscription = messageEmitter.messageAnnounced
       .subscribe(message => {
-        console.log(message);
-        if (message.chatId === this.chatId) {
-          try {
-            const mg = this.messageHandler(message);
-            this.messages.push(mg);
-            this.appRef.tick();
-          } catch (e) {
-            console.log('Error Handled');
+        if (message !== null && message !== undefined && message.type !== 'done') {
+          console.log(message);
+          if (message.chatId === this.chatId) {
+            setInterval(() => {
+              this.pushNewMessage(message);
+              // this.appRef.tick();
+            }, 500);
           }
         }
       });
@@ -59,12 +56,13 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.init();
   }
 
-  // ngOnChanges(changes: SimpleChanges): void {
-  //
-  // }
+  ngOnChanges(changes: SimpleChanges): void {
+
+  }
 
   ngOnDestroy(): void {
     this.chatId = '';
+    this.subscription.unsubscribe();
   }
 
   init() {
@@ -99,7 +97,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         name: this.userMap.get(info.userId).nickname
       }
     });
-    this.appRef.tick();
+    // this.appRef.tick();
     this.api.createMessage(info.sessionId, info.userId, this.chatId, 'text', event.message)
       .subscribe((message) => {
         // userId, sessionId, chatId, messageId
@@ -116,8 +114,8 @@ export class ChatComponent implements OnInit, OnDestroy {
           doc.forEach((message) => {
             this.messageHandler(message);
           });
-          this.toastr.primary('Messages loaded', 'Alert');
-          this.appRef.tick();
+          // this.toastr.primary('Messages loaded', 'Alert');
+          // this.appRef.tick();
         }
       );
   }
@@ -128,17 +126,26 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   messageConverter(message: Message) {
-    const item = {
-      text: message.content,
-      date: new Date(message.time),
-      type: message.type,
-      reply: message.userId === this.userId,
-      user: {
-        name: this.userMap.get(message.userId).nickname
-      }
-    };
-    this.messageMap.set(message._id, item);
-    return item;
+    if (!this.messageMap.has(message._id)) {
+      const item = {
+        text: message.content,
+        date: new Date(message.time),
+        type: message.type,
+        reply: message.userId === this.userId,
+        user: {
+          name: this.userMap.get(message.userId).nickname
+        }
+      };
+      this.messageMap.set(message._id, item);
+      return item;
+    }
+    return undefined;
   }
 
+  private pushNewMessage(message: Message) {
+    const item = this.messageConverter(message);
+    if (item !== undefined && item !== null) {
+      this.messages.push(item);
+    }
+  }
 }

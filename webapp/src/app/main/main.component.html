@@ -1,8 +1,10 @@
 <nb-layout>
   <nb-layout-header fixed>
-    Wednesday Messenger
     <!--    <button nbButton [nbContextMenu]="items">MY PROFILE</button>-->
-    <nb-user nbButton class="right" [nbContextMenu]="items"
+    <nb-user nbButton class="right"
+             [nbContextMenu]="items"
+             [name]="currentUser.nickname"
+             [title]="currentUser.username"
              nbContextMenuTag="user-context-menu"></nb-user>
   </nb-layout-header>
 

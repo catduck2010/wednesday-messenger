@@ -44,16 +44,15 @@ export class RegisterComponent implements OnInit {
 
   register() {
     if (this.password !== this.confirm) {
-
+      alert('Two passwords not match!');
     } else {
       this.api.createUser(this.username, this.password, this.nickname)
         .subscribe(
           (doc) => {
-
+            alert(`User ${doc.username} is created.`);
           },
           (error) => {
-          },
-          () => {
+            alert(error);
           }
         );
     }

@@ -34,6 +34,7 @@ export class MainComponent implements OnInit {
   messages: any[] = [];
   chats: Chat[] = [];
   friends: User[] = [];
+  currentUser: User = null;
   private userMap: Map<string, User> = new Map();
   private chatComponentRef: ComponentRef<ChatComponent> = null;
   currentChat: Chat = null;
@@ -53,11 +54,16 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     const info = this.grand.getInfo();
-    this.items = [{title: 'Log Out'}];
+    this.currentUser = info.currentUser;
+    this.items = [
+      {title: 'My Profile'},
+      {title: 'Add A Friend'},
+      {title: 'New Chat'},
+      {title: 'Log Out'}
+    ];
     this.right = 'right';
     this.getFriends();
     this.getChats();
-
     this.menuService.onItemClick()
       .pipe(
         filter(({tag}) => tag === 'user-context-menu'),
@@ -68,6 +74,9 @@ export class MainComponent implements OnInit {
           // this.router.navigate('welcome').then((b) => {
           //   console.log(b);
           // });
+          this.grand.logOut();
+        } else if (title === 'My Profile') {
+
         }
       });
     this.grand.socket.on('new message', (chatId, messageId) => {
