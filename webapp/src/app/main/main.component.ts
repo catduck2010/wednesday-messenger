@@ -1,4 +1,12 @@
-import {Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  ComponentRef,
+  OnChanges,
+  OnInit,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {MessengerApiService} from '../messenger-api.service';
 import {SocketService} from '../socket.service';
 import {Chat} from '../models/chat';

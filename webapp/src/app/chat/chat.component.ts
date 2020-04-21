@@ -1,4 +1,14 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  NgZone,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ApplicationRef
+} from '@angular/core';
 import {GrandService} from '../grand.service';
 import {MessengerApiService} from '../messenger-api.service';
 import {User} from '../models/user';
@@ -11,10 +21,10 @@ import {NbToastrService} from '@nebular/theme';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
+
   @Input() chat: Chat = null;
   @Input() people: User[] = [];
   @Input() toastr: NbToastrService;
@@ -27,19 +37,34 @@ export class ChatComponent implements OnInit {
 
   constructor(private grand: GrandService,
               private api: MessengerApiService,
-              private messageEmitter: MessageEmitterService) {
+              private messageEmitter: MessageEmitterService,
+              private zone: NgZone,
+              private appRef: ApplicationRef) {
     this.subscription = messageEmitter.messageAnnounced$
       .subscribe(message => {
+        console.log(message);
         if (message.chatId === this.chatId) {
-          const mg = this.messageHandler(message);
-          this.messages.push(mg);
+          try {
+            const mg = this.messageHandler(message);
+            this.messages.push(mg);
+            this.appRef.tick();
+          } catch (e) {
+            console.log('Error Handled');
+          }
         }
       });
   }
 
   ngOnInit(): void {
     this.init();
+  }
 
+  // ngOnChanges(changes: SimpleChanges): void {
+  //
+  // }
+
+  ngOnDestroy(): void {
+    this.chatId = '';
   }
 
   init() {
@@ -65,9 +90,18 @@ export class ChatComponent implements OnInit {
 
   create(event: { message: string; files: File[] }) {
     const info = this.grand.getInfo();
+    this.messages.push({
+      text: event.message,
+      date: new Date(),
+      type: 'text',
+      reply: true,
+      user: {
+        name: this.userMap.get(info.userId).nickname
+      }
+    });
+    this.appRef.tick();
     this.api.createMessage(info.sessionId, info.userId, this.chatId, 'text', event.message)
       .subscribe((message) => {
-        this.messageHandler(message);
         // userId, sessionId, chatId, messageId
         this.grand.socket.emit('message', info.userId, info.sessionId, this.chatId, message._id);
       });
@@ -78,11 +112,12 @@ export class ChatComponent implements OnInit {
     this.api.getChatMessages(info.sessionId, info.userId, this.chatId)
       .subscribe(
         (doc) => {
-          this.toastr.primary('Loading Messages', 'Alert');
+          // this.toastr.primary('Loading Messages', 'Alert');
           doc.forEach((message) => {
             this.messageHandler(message);
           });
           this.toastr.primary('Messages loaded', 'Alert');
+          this.appRef.tick();
         }
       );
   }
@@ -94,10 +129,9 @@ export class ChatComponent implements OnInit {
 
   messageConverter(message: Message) {
     const item = {
-      id: message._id,
       text: message.content,
       date: new Date(message.time),
-      type: 'text',
+      type: message.type,
       reply: message.userId === this.userId,
       user: {
         name: this.userMap.get(message.userId).nickname
