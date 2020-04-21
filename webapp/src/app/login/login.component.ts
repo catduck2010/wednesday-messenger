@@ -1,4 +1,9 @@
 import {Component, OnInit} from '@angular/core';
+import {MessengerApiService} from '../messenger-api.service';
+import {SocketService} from '../socket.service';
+import {Router} from '@angular/router';
+import {GrandService} from '../grand.service';
+import {NbToastrService} from '@nebular/theme';
 
 @Component({
   selector: 'app-login',
@@ -7,8 +12,11 @@ import {Component, OnInit} from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-
-  constructor() {
+  constructor(private router: Router,
+              private grand: GrandService,
+              private api: MessengerApiService,
+              private skt: SocketService,
+              private toastr: NbToastrService) {
   }
 // innerHTML
   content = '<div class="form-wrapper">' +
@@ -80,9 +88,17 @@ export class LoginComponent implements OnInit {
     '</form>' +
 
     '</div>';
+  password: string;
+  username: string;
+  private userId: string;
+  private sessionId: string;
 
 
   ngOnInit(): void {
+  }
+
+  login() {
+    this.grand.login(this.username, this.password, this.toastr);
   }
 
 }

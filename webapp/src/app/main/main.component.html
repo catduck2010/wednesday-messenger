@@ -1,0 +1,35 @@
+<nb-layout>
+  <nb-layout-header fixed>
+    <!--    <button nbButton [nbContextMenu]="items">MY PROFILE</button>-->
+    <nb-user nbButton class="right"
+             [nbContextMenu]="items"
+             [name]="currentUser.nickname"
+             [title]="currentUser.username"
+             nbContextMenuTag="user-context-menu"></nb-user>
+  </nb-layout-header>
+
+  <nb-sidebar>
+    <nb-tabset>
+      <nb-tab tabTitle="Chats">
+        <nb-user *ngFor="let c of chats"
+                 [name]="c.chatName"
+                 [title]="'Chat'"
+                 (click)="openChat(c)">
+        </nb-user>
+      </nb-tab>
+      <nb-tab tabTitle="Friends">
+        <nb-user *ngFor="let user of friends"
+                 [name]="user.nickname"
+                 [title]="user.username">
+        </nb-user>
+      </nb-tab>
+    </nb-tabset>
+  </nb-sidebar>
+
+  <nb-layout-column>
+<!--    <app-chat [ngClass]="{'no-showing':!ifShowChat}"-->
+<!--              [chatInfo]="{chat: currentChat, people: getPeople(currentChat)}"-->
+<!--    ></app-chat>-->
+    <ng-template appChatBlock></ng-template>
+  </nb-layout-column>
+</nb-layout>

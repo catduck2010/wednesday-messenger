@@ -1,6 +1,7 @@
 'use strict';
 //define objects
 const userService = require('../services/user-service'),
+    chatService = require('../services/chat-service'),
     common = require('../helper/common'),
     renderErrorResponse = common.renderErrorResponse;
 
@@ -160,6 +161,34 @@ exports.deleteById = (req, res) => {
         })
         .catch(renderErrorResponse(res));
 };
+
+exports.getAllChatsInfo = (req, res) => {
+    const userId = req.params.userId;
+    const promise = userService.get(userId);
+    promise
+        .then((doc) => {
+            const chats = doc.chatList;
+            return chatService.search({_id: {$in: chats}});
+        })
+        .then((items) => {
+            res.status(200);
+            res.json(items);
+        })
+}
+
+exports.getAllFriendsInfo = (req,res)=>{
+    const userId = req.params.userId;
+    const promise = userService.get(userId);
+    promise
+        .then((doc) => {
+            const friends = doc.friendList;
+            return userService.find({_id: {$in: friends}});
+        })
+        .then((items) => {
+            res.status(200);
+            res.json(items);
+        })
+}
 
 
 
