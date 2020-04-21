@@ -8,9 +8,17 @@ import {Message} from './models/message';
 export class MessageEmitterService {
   private messageAnnouncedSource = new Subject<Message>();
 
-  messageAnnounced$ = this.messageAnnouncedSource.asObservable();
+  messageAnnounced = this.messageAnnouncedSource;
 
   newMessage(message: Message) {
     this.messageAnnouncedSource.next(message);
+    this.messageAnnouncedSource.next({
+      _id: '',
+      chatId: '',
+      content: '',
+      time: new Date(),
+      userId: '',
+      type: 'done'
+    });
   }
 }
