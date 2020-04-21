@@ -15,9 +15,12 @@
 1. Resgister account
 2. Sign up
 3. View chatlist
-4. Send messages
+4. Send messages（text,emoji）
 5. Chat in groups
 6. View personal profile
+7. Update password in small windows
+8. Withdraw and delete messages
+9. new message reminder
 
 ## Implement Tech:
 * JavaScript
