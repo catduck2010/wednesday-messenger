@@ -42,29 +42,35 @@
       </svg>
   </div>
   <!-- ./ logo -->
+  <nb-card>
+    <nb-card-header>
+      <h5>Sign in</h5>
+    </nb-card-header>
+    <nb-card-body>
+      <!-- form -->
 
-  <h5>Sign in</h5>
+      <div class="form-group">
+        <input nbInput type="text" [(ngModel)]="username" class="form-control" placeholder="Username or email" required
+               autofocus>
+      </div>
+      <div class="form-group">
+        <input nbInput type="password" [(ngModel)]="password" class="form-control" placeholder="Password" required>
+      </div>
 
-  <!-- form -->
+      <div class="form-group d-flex justify-content-between">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" checked="" id="customCheck1">
+          <label class="custom-control-label" for="customCheck1">Remember me</label>
+        </div>
+        <!--<a href="./reset-password.html" class="a">Reset password</a>-->
+      </div>
 
-  <div class="form-group">
-    <input nbInput type="text" [(ngModel)]="username" class="form-control" placeholder="Username or email" required
-           autofocus>
-  </div>
-  <div class="form-group">
-    <input nbInput type="password" [(ngModel)]="password" class="form-control" placeholder="Password" required>
-  </div>
-
-  <div class="form-group d-flex justify-content-between">
-    <div class="custom-control custom-checkbox">
-      <input type="checkbox" class="custom-control-input" checked="" id="customCheck1">
-      <label class="custom-control-label" for="customCheck1">Remember me</label>
-    </div>
-    <!--<a href="./reset-password.html" class="a">Reset password</a>-->
-  </div>
-
-  <button nbButton (click)="login()" class="btn btn-primary btn-block c">Sign in</button>
-  <hr>
+      <hr>
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton (click)="login()" class="btn btn-primary btn-block c">Sign in</button>
+    </nb-card-footer>
+  </nb-card>
   <!--
       <p class="text-muted">Login with your social media account.</p>
       <ul class="list-inline">

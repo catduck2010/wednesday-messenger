@@ -24,13 +24,14 @@ import {
   NbDialogModule,
   NbChatModule,
   NbUserModule,
-  NbToastrModule, NbMenuModule
+  NbToastrModule, NbMenuModule, NbCardModule
 } from '@nebular/theme';
 import {NbEvaIconsModule} from '@nebular/eva-icons';
 import {WelcomePageComponent} from './welcome-page/welcome-page.component';
 import {FormsModule} from '@angular/forms';
 import {ChatComponent} from './chat/chat.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ChatBlockDirective } from './chat-block.directive';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     RegisterComponent,
     WelcomePageComponent,
     ChatComponent,
+    ChatBlockDirective,
   ],
   imports: [
     BrowserModule,
@@ -62,7 +64,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     NbInputModule,
     NbChatModule,
     NbUserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NbCardModule
   ],
   providers: [NbSidebarService, NbMenuService],
   bootstrap: [AppComponent]

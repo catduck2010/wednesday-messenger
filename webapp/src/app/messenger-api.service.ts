@@ -6,8 +6,10 @@ import {LoginResponse} from './models/login-response';
 import {Message} from './models/message';
 import {User} from './models/user';
 import {Chat} from './models/chat';
+import {environment} from '../environments/environment';
 
-const url = 'http://localhost:777';
+const url = environment.apiUrl;
+
 const headers = new HttpHeaders()
   .set(
     'Content-type',
@@ -118,7 +120,7 @@ export class MessengerApiService {
 
   deleteUserById(sessionId: string, userId: string) {
     return this.http
-      .request<JSON>('delete', url + '/users/id/' + userId, {
+      .request<{ message: string }>('delete', url + '/users/id/' + userId, {
         body: {
           sessionId,
           userId
@@ -145,7 +147,7 @@ export class MessengerApiService {
 
   updateChatById(sessionId: string, userId: string, chatId: string, item: Chat) {
     return this.http
-      .put(url + '/chats/' + chatId, {
+      .put<Chat>(url + '/chats/' + chatId, {
         sessionId,
         userId,
         chatId,
@@ -157,7 +159,7 @@ export class MessengerApiService {
 
   deleteChatById(sessionId, userId, chatId) {
     return this.http
-      .request('delete', url + '/chat/' + chatId, {
+      .request<{ message: string }>('delete', url + '/chat/' + chatId, {
         body: {
           sessionId,
           userId

@@ -1,8 +1,9 @@
 <nb-layout>
   <nb-layout-header fixed>
     Wednesday Messenger
-<!--    <button nbButton [nbContextMenu]="items">MY PROFILE</button>-->
-    <nb-user nbButton class="right" [nbContextMenu]="items"></nb-user>
+    <!--    <button nbButton [nbContextMenu]="items">MY PROFILE</button>-->
+    <nb-user nbButton class="right" [nbContextMenu]="items"
+             nbContextMenuTag="user-context-menu"></nb-user>
   </nb-layout-header>
 
   <nb-sidebar>
@@ -10,7 +11,7 @@
       <nb-tab tabTitle="Chats">
         <nb-user *ngFor="let c of chats"
                  [name]="c.chatName"
-                 [title]=""
+                 [title]="'Chat'"
                  (click)="openChat(c)">
         </nb-user>
       </nb-tab>
@@ -24,6 +25,9 @@
   </nb-sidebar>
 
   <nb-layout-column>
-    <router-outlet></router-outlet>
+<!--    <app-chat [ngClass]="{'no-showing':!ifShowChat}"-->
+<!--              [chatInfo]="{chat: currentChat, people: getPeople(currentChat)}"-->
+<!--    ></app-chat>-->
+    <ng-template appChatBlock></ng-template>
   </nb-layout-column>
 </nb-layout>

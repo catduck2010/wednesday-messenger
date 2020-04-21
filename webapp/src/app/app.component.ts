@@ -7,7 +7,7 @@ import * as socketIo from 'socket.io-client';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'webapp';
+  title = 'Wednesday Messenger';
 
   ngOnInit(): void {
     // const socket = socketIo('http://localhost:777');
