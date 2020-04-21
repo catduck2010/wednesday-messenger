@@ -33,9 +33,9 @@
 2. Execute a command "git clone https://github.com/neu-mis-info6150-spring-2020/final-project-wednesday.git"
 3. Execute a command: "cd server"
 4. In server directory, execute a command: "npm install"
-5.Execute a command ："node server.js"
-6.In webapp directory, execute a command:"ng serve"
-5. Access production serve at: http://localhost:4200
-6. Enjoy our application.
+5. Execute a command ："node server.js"
+6. In webapp directory, execute a command:"ng serve"
+7. Access production serve at: http://localhost:4200
+8. Enjoy our application.
 
 
