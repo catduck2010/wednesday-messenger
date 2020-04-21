@@ -3,6 +3,7 @@ import {MessengerApiService} from '../messenger-api.service';
 import {SocketService} from '../socket.service';
 import {Router} from '@angular/router';
 import {GrandService} from '../grand.service';
+import {NbToastrService} from '@nebular/theme';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,11 @@ import {GrandService} from '../grand.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private router: Router, private grand: GrandService, private api: MessengerApiService, private skt: SocketService) {
+  constructor(private router: Router,
+              private grand: GrandService,
+              private api: MessengerApiService,
+              private skt: SocketService,
+              private toastr: NbToastrService) {
   }
 
   content = '<div class="form-wrapper">' +
@@ -93,7 +98,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.grand.login(this.username, this.password);
+    this.grand.login(this.username, this.password, this.toastr);
   }
 
 }

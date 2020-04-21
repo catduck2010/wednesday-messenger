@@ -10,6 +10,11 @@ nb-user {
   transition: 0.3s;
   width: available;
 }
-.right{
+
+.right {
   justify-content: flex-end;
+}
+
+.no-showing {
+  display: none;
 }

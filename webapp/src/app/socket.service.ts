@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import * as socketIo from 'socket.io-client';
+import {environment} from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SocketService {
   private socket: SocketIOClient.Socket;
-  private url = 'http://localhost:777?user=';
+  private url = environment.apiUrl + '?user=';
 
   constructor() {
   }

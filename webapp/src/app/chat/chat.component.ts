@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {GrandService} from '../grand.service';
 import {MessengerApiService} from '../messenger-api.service';
 import {User} from '../models/user';
@@ -8,13 +8,15 @@ import {Chat} from '../models/chat';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss']
+  styleUrls: ['./chat.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatComponent implements OnInit {
-  @Input() chat: Chat;
-  people: User[];
-  messages: any[];
+  @Input() chat: Chat = null;
+  @Input() people: User[] = [];
+  messages: any[] = [];
   chatId: string;
+  userId: string;
   private userMap: Map<string, User>;
   private messageMap: Map<string, object>;
 
@@ -22,14 +24,28 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.chatId = this.chat._id;
-    // this.people = this.chat.users;
-    this.userMap = new Map<string, User>();
-    this.messageMap = new Map<string, Message>();
-    this.people.forEach(person => {
-      this.userMap.set(person._id, person);
-    });
-    this.getAllMessages();
+    this.init();
+  }
+
+  init() {
+    if (this.chat !== null) {
+      const info = this.grand.getInfo();
+      this.chatId = this.chat._id;
+      this.userId = info.userId;
+      const peopleId = this.chat.users;
+      // this.people = this.chat.users;
+      this.userMap = new Map<string, User>();
+      this.messageMap = new Map<string, Message>();
+      this.people.forEach(person => {
+        this.userMap.set(person._id, person);
+      });
+      this.getAllMessages();
+    }
+    console.log(this.chat);
+  }
+
+  reset() {
+    this.messages = [];
   }
 
   create(event: { message: string; files: File[] }) {
@@ -61,7 +77,7 @@ export class ChatComponent implements OnInit {
       date: new Date(message.time),
       files: null,
       type: message.type,
-      reply: false,
+      reply: message.userId === this.userId,
       user: {
         name: this.userMap.get(message.userId).nickname
       }
