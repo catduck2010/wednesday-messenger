@@ -31,6 +31,7 @@
 * MongoDB
 * @angular/cli
 * [Socket.io](https://socket.io)
+* [Nebular](https://akveo.github.io/nebular/)
 
 ## Project Guideline：
 #### How to Run
