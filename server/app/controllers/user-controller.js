@@ -1,10 +1,12 @@
 'use strict';
+//define objects
 const userService = require('../services/user-service'),
     chatService = require('../services/chat-service'),
     common = require('../helper/common'),
     renderErrorResponse = common.renderErrorResponse;
 
-
+// Take the parameter and insert it into the
+// Realtime Database under default path
 exports.test = (req, res) => {
     res.send('');
 };
@@ -16,7 +18,10 @@ exports.uuid = (req, res) => {
     });
 };
 
+// Take the parameter and insert it into the
+// Realtime Database under default path
 exports.register = (request, response) => {
+    //grab parameter
     const user = Object.assign({}, request.body);
     user._id = common.uuid();
     const promise = common.hashPassword(user.password);
@@ -40,6 +45,8 @@ exports.register = (request, response) => {
         .catch(renderErrorResponse(response));
 };
 
+// Take the parameter for verify and corresponding and insert it into the
+// Realtime Database under default path
 exports.verify = (request, response) => {
     const sessionId = common.uuid();
     const username = request.body.username, password = request.body.password;
@@ -83,6 +90,7 @@ exports.getAllUsers = (req, res) => {
 
 // get user by its username
 exports.getByUsername = (req, res) => {
+    //grab parameter
     const username = req.params.username;
     const promise = userService.search(username);
     promise
@@ -95,6 +103,7 @@ exports.getByUsername = (req, res) => {
 
 // get user by its id
 exports.getById = (req, res) => {
+    //grab parameter
     const userId = req.params.userId;
     const promise = userService.get(userId);
     promise
@@ -105,7 +114,10 @@ exports.getById = (req, res) => {
         .catch(renderErrorResponse(res));
 };
 
+// Take the parameter for update info and insert it into the
+// Realtime Database under default path
 exports.updateById = (req, res) => {
+    //grab parameter
     const userId = req.params.userId,
         sessionId = req.body.sessionId,
         password = req.body.password,
@@ -147,7 +159,10 @@ exports.updateById = (req, res) => {
 };
 
 // delete user by its id
+// Take the parameter for delete info and insert it into the
+// Realtime Database under default path
 exports.deleteById = (req, res) => {
+    //grab parameter
     const userId = req.params.userId,
         sessionId = req.body.sessionId;
     const promise = userService.get(userId);

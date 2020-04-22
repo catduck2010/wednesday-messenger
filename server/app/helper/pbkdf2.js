@@ -1,5 +1,5 @@
 'use strict';
-
+//define objects
 const crypto = require('crypto');
 
 const config = {

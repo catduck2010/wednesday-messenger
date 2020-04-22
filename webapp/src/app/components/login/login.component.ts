@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   constructor(private grand: GrandService,
               private toastr: NbToastrService) {
   }
-
+// innerHTML
   content = '<div class="form-wrapper">' +
     '<div class="logo">' +
 
