@@ -20,7 +20,8 @@
 6. View personal profile
 7. Update password in small windows
 8. Withdraw and delete messages
-9. new message reminder
+9. New message reminder
+10. Create new chat
 
 ## Implement Tech:
 * JavaScript
