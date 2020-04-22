@@ -1,9 +1,11 @@
 'use strict';
 
+// maps are used to determine the online status
 const userMap = new Map();
 const sessionMap = new Map();
 const socketMap = new Map();
 
+// add to map
 exports.put = (userId, socketId, sessionId) => {
     remove(userId);
     console.log(`putting ${userId}, ${socketId}, ${sessionId}...`);
@@ -15,6 +17,7 @@ exports.put = (userId, socketId, sessionId) => {
     socketMap.set(socketId, userId);
 };
 
+// get from maps
 const get = (userId) => {
     if (userMap.has(userId)) {
         const data = userMap.get(userId);
@@ -24,6 +27,7 @@ const get = (userId) => {
     }
 };
 
+// remove using userid
 const remove = (userId) => {
     if (userMap.has(userId)) {
         const doc = userMap.get(userId);
@@ -52,6 +56,7 @@ exports.remove = (socketId) => {
     }
 };
 
+// return a promise to genuine the qualification of access
 exports.genuine = (sessionId, userId) => {
     return new Promise((resolve) => {
         if (trySession(sessionId) === userId) {

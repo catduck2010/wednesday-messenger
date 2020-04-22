@@ -7,6 +7,7 @@ const chatService = require('../services/chat-service'),
     common = require('../helper/common'),
     renderErrorResponse = common.renderErrorResponse;
 
+// create new message
 exports.newMessage = (req, res) => {
     const sessionId = req.body.sessionId;
     //if (sessionCheck(sessionId, req, res, 403)) {
@@ -32,6 +33,7 @@ exports.newMessage = (req, res) => {
     // }
 };
 
+// create new chat
 exports.newChat = (req, res) => {
     const sessionId = req.body.sessionId, userId = req.body.userId;
     //if (sessionCheck(sessionId, req, res, 403)) {

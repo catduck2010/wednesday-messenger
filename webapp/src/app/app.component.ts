@@ -12,9 +12,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // const socket = socketIo('http://localhost:777');
-    // socket.on('message', data => console.log(data));
-    this.title.setTitle('Wednesday Messenger');
+    this.title.setTitle('Wednesday Messenger'); // change title
   }
 
 }

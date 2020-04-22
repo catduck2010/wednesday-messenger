@@ -25,8 +25,8 @@ let userSchema = new Schema({
     sessionId: String,
     password: {type: String, required: [true, 'Password is needed!']},
     friendList: [{type: String, ref: 'User'}], // userId
-    blockList: [{type: String, ref: 'User'}],
-    chatList: [{type: String, ref: 'Chat'}]
+    blockList: [{type: String, ref: 'User'}], // userId
+    chatList: [{type: String, ref: 'Chat'}] // userId
 });
 
 // userSchema.virtual('userId').get(function () {

@@ -2,6 +2,7 @@
 
 const pbkdf2 = require('./pbkdf2');
 
+// generate uuid
 exports.uuid = () => {
     // generate four random hex digits
     const S4 = () => (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);

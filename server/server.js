@@ -1,12 +1,12 @@
 const app = require("express")(),
-    port = process.env.PORT || 777,
-    mongoose = require('mongoose'), //created model loading here
+    port = process.env.PORT || 777, // the bill is dead
+    mongoose = require('mongoose'), // created model loads here
     bodyParser = require('body-parser'),
     server = require('http').createServer(app),
     ioCtrl = require('./app/controllers/socket-controller'),
     io = require('socket.io').listen(server);
 
-// use by Docker
+// use mongodb by Docker
 // docker pull mongo:4.2.5-bionic
 // docker run --name mymongo -p 27017:27017 -v ~/.mongo/db:/data/db -d mongo:4.2.5-bionic
 
@@ -37,6 +37,7 @@ app.use((req, res, next) => {
     next();
 });
 
+// init app & add socket event listeners
 const initApp = require('./app/app');
 initApp(app);
 ioCtrl(io);

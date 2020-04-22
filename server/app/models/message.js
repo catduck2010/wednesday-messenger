@@ -10,7 +10,7 @@ let messageSchema = new Schema({
     userId: {type: String, required: true, ref: 'User'},
     chatId: {type: String, required: true, index: true, ref: 'Chat'},
     // messageId: {type: String, default: common.uuid(), index: true, immutable: true},
-    type: {type: String, default: 'text'},
+    type: {type: String, default: 'text'}, // only support text so far
     content: String,
     time: {type: Date, default: Date.now()}
 });

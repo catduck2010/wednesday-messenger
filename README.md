@@ -11,7 +11,7 @@
 ## Project Description : 
 *   Our project is a message application. We provide a plateform for peole to chat online with friends and communicate in groups. Here is the specific functions of our app.
 
-* For users:
+#### For users:
 1. Resgister account
 2. Sign up
 3. View chatlist
@@ -23,22 +23,23 @@
 9. new message reminder
 
 ## Implement Tech:
-* JavaScript
+* JavaScript/TypeScript
 * Scss
 * Angular
 * NodeJS
 * MongoDB
 * @angular/cli
+* [Socket.io](https://socket.io)
 
 ## Project Guideline：
-* STEPS:
-1. Open a git bash shell
-2. Execute a command "git clone https://github.com/neu-mis-info6150-spring-2020/final-project-wednesday.git"
-3. Execute a command: "cd server"
-4. In server directory, execute a command: "npm install"
-5. Execute a command ："node server.js"
-6. In webapp directory, execute a command:"ng serve"
+#### How to Run
+1. Open at least 2 git bash shells;
+2. Run `git clone https://github.com/neu-mis-info6150-spring-2020/final-project-wednesday.git`;
+3. Run `cd server`;
+4. In server directory, execute `npm install`
+5. Execute `node server.js` to run server
+6. In webapp directory, execute `ng serve`
 7. Access production serve at: http://localhost:4200
-8. Enjoy our application.
+8. Enjoy.
 
 

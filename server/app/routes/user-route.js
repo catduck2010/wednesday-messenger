@@ -6,6 +6,7 @@ module.exports = app => {
     app.route('/uuid')
         .get(userCtrl.uuid);
     app.route('/users')
+        .get(userCtrl.getAllUsers)
         .post(userCtrl.register);
     app.route('/users/login')
         .post(userCtrl.verify);

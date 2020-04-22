@@ -52,6 +52,7 @@ const controller = (io) => {
                     });
 
                     users.forEach((user) => {
+                        // emit events to all online clients
                         let socketId;
                         [socketId,] = userMap.get(user);
                         if (io.sockets.connected[socketId]) {
@@ -85,6 +86,7 @@ const controller = (io) => {
                     });
 
                     users.forEach((user) => {
+                        // emit event to all online clients
                         let socketId;
                         [socketId,] = userMap.get(user);
                         if (io.sockets.connected[socketId]) {
@@ -114,6 +116,7 @@ const controller = (io) => {
                     });
 
                     users.forEach((user) => {
+                        // emit event to all online clients
                         let socketId;
                         [socketId,] = userMap.get(user);
                         if (io.sockets.connected[socketId]) {

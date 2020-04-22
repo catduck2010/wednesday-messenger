@@ -1,0 +1,82 @@
+<nb-layout>
+  <nb-layout-header fixed>
+    <!--    <button nbButton [nbContextMenu]="items">MY PROFILE</button>-->
+    <nb-user nbButton class="right"
+             [nbContextMenu]="items"
+             [name]="currentUser.nickname"
+             [title]="currentUser.username"
+             nbContextMenuTag="profile-context-menu"></nb-user>
+  </nb-layout-header>
+  <ng-template #escClose>
+    <nb-card>
+      <nb-card-body>
+        <input class="input-x" [ngClass]="{'no-showing':changePasswordMode}" [(ngModel)]="profileUsername"
+               type="text" nbInput fullWidth status="primary"
+               placeholder="Username">
+        <input class="input-x" [ngClass]="{'no-showing':changePasswordMode}" [(ngModel)]="profileNickname"
+               type="text" nbInput fullWidth status="primary"
+               placeholder="Nickname">
+        <label>Enter Passwords to Save</label>
+        <input class="input-x" [ngClass]="{'no-showing':!changePasswordMode}" [(ngModel)]="oldPassword" type="password"
+               nbInput
+               fullWidth status="primary" placeholder="Old Password">
+        <input class="input-x" [(ngModel)]="password" type="password" nbInput fullWidth status="primary"
+               [placeholder]="getPlaceholder()">
+        <input class="input-x" [(ngModel)]="confirm" type="password" nbInput fullWidth status="primary"
+               placeholder="Confirm Password">
+      </nb-card-body>
+      <nb-card-footer>
+        <button [ngClass]="{'no-showing':changePasswordMode}" (click)="changeMode()" nbButton status="warning">Change
+          Password
+        </button>
+        <button (click)="saveProfile()" nbButton status="success">Save</button>
+      </nb-card-footer>
+    </nb-card>
+  </ng-template>
+  <ng-template #addChat>
+    <nb-card>
+      <nb-card-header>Select 2 or more users to create this Chat</nb-card-header>
+      <nb-card-body>
+        <nb-list>
+          <nb-list-item *ngFor="let u of userList">
+            <nb-checkbox status="primary" (checkedChange)="toggleUser(u, $event)" [disabled]="checkIfCurrentUser(u)">
+              <nb-user [name]="u.nickname" [title]="u.username" size="small"></nb-user>
+            </nb-checkbox>
+          </nb-list-item>
+        </nb-list>
+      </nb-card-body>
+      <nb-card-footer>
+        <input nbInput status="primary" placeholder="Chat Name" [(ngModel)]="newChatName">
+        <button nbButton status="primary" [disabled]="checkUserCounts()" (click)="createGroupChat()">Create</button>
+      </nb-card-footer>
+    </nb-card>
+  </ng-template>
+  <nb-sidebar>
+    <nb-tabset>
+      <nb-tab tabTitle="Chats">
+        <nb-user *ngFor="let c of chats"
+                 [name]="getChatName(c)"
+                 [title]="getChatType(c)"
+                 (click)="openChat(c)">
+        </nb-user>
+      </nb-tab>
+      <nb-tab tabTitle="Friends">
+        <nb-user *ngFor="let user of friends"
+                 size="small"
+                 [name]="user.nickname"
+                 [title]="user.username"
+                 [nbContextMenu]="userMenu"
+                 (click)="setSelectedUser(user)"
+                 nbContextMenuTag="users-context-menu">
+        </nb-user>
+      </nb-tab>
+    </nb-tabset>
+  </nb-sidebar>
+
+  <nb-layout-column>
+    <!--    <app-chat [ngClass]="{'no-showing':!ifShowChat}"-->
+    <!--              [chatInfo]="{chat: currentChat, people: getPeople(currentChat)}"-->
+    <!--    ></app-chat>-->
+    <ng-template appChatBlock></ng-template>
+  </nb-layout-column>
+</nb-layout>
