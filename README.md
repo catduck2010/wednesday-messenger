@@ -21,7 +21,7 @@
 7. Update password in small windows
 8. Withdraw and delete messages
 9. New message reminder
-10. 
+10. Create new chat
 
 ## Implement Tech:
 * JavaScript
