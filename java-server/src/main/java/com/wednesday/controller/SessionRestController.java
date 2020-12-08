@@ -1,4 +1,7 @@
 package com.wednesday.controller;
 
-public class SessionController {
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class SessionRestController {
 }

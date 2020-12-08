@@ -1,4 +1,4 @@
-package com.wednesday.Service;
+package com.wednesday.service;
 
-public class ServiceOne {
+public class UserMapService {
 }

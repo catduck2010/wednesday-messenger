@@ -1,2 +1,4 @@
-package com.wednesday.Service;public class Util {
+package com.wednesday.helper;
+
+public class Util {
 }

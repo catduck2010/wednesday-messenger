@@ -1,2 +1,4 @@
-package com.wednesday.service;public class MessageService {
+package com.wednesday.service;
+
+public class MessageService {
 }

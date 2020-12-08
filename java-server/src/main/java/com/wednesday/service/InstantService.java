@@ -1,2 +1,4 @@
-package com.wednesday.service;public class SocketIOService {
+package com.wednesday.service;
+
+public class InstantService {
 }

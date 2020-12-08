@@ -1,6 +1,10 @@
 package com.wednesday.controller;
 
-public class ChatController {
+
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ChatRestController {
 //    @Controller
 //    public static void newChat(HttpRequest req, HttpResponse res){
 //

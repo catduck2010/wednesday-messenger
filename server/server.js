@@ -10,7 +10,7 @@ const app = require("express")(),
 // docker pull mongo:4.2.5-bionic
 // docker run --name mymongo -p 27017:27017 -v ~/.mongo/db:/data/db -d mongo:4.2.5-bionic
 
-mongoose.connect('mongodb://localhost:27017/messenger', {
+mongoose.connect('mongodb://192.168.31.129:27017/wednesday', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
