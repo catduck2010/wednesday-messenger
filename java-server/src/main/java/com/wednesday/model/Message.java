@@ -2,10 +2,12 @@ package com.wednesday.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "message")
+@Table(name = "messages")
 public class Message {
 
     @Id

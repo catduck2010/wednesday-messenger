@@ -8,9 +8,9 @@ import java.util.UUID;
 
 public class UserMap {
 
-    private final Map<String, Pair<UUID, UUID>> userMap;// Pair<SessionId, SocketId>
-    private final Map<UUID, String> sessionMap;
-    private final Map<UUID, String> socketMap;
+    private final Map<String, Pair<String, String>> userMap;// Pair<SessionId, SocketId>
+    private final Map<String, String> sessionMap;
+    private final Map<String, String> socketMap;
 
     public UserMap() {
         userMap = new HashMap<>();
@@ -20,11 +20,12 @@ public class UserMap {
 
     /**
      * put user login details into the map
-     * @param userId user id
-     * @param socketId socket id
+     *
+     * @param userId    user id
+     * @param socketId  socket id
      * @param sessionId session id
      */
-    public void put(String userId, UUID socketId, UUID sessionId) {
+    public void put(String userId, String socketId, String sessionId) {
         removeUser(userId);
 
         userMap.put(userId, new Pair<>(sessionId, socketId));
@@ -32,15 +33,15 @@ public class UserMap {
         socketMap.put(socketId, userId);
     }
 
-    public Pair<UUID, UUID> get(String userId) {
+    public Pair<String, String> get(String userId) {
         return userMap.getOrDefault(userId, null);
     }
 
-    public UUID getSessionId(String userId){
+    public String getSessionId(String userId) {
         return this.get(userId).getKey();
     }
 
-    public UUID getSocketId(String userId){
+    public String getSocketId(String userId) {
         return this.get(userId).getValue();
     }
 
@@ -56,7 +57,7 @@ public class UserMap {
     }
 
     private void removeUser(String userId) {
-        Pair<UUID, UUID> doc = userMap.getOrDefault(userId, null);
+        Pair<String, String> doc = userMap.getOrDefault(userId, null);
         if (doc != null) {
             sessionMap.remove(doc.getKey());
             socketMap.remove(doc.getValue());
@@ -68,7 +69,7 @@ public class UserMap {
         return userId.equals(sessionMap.getOrDefault(sessionId, null));
     }
 
-    public void genuine(UUID sessionId, String userId){
+    public void genuine(UUID sessionId, String userId) {
 
     }
 }

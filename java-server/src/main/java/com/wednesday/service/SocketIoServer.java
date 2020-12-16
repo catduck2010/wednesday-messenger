@@ -47,5 +47,6 @@ public class SocketIoServer implements ApplicationListener<ContextRefreshedEvent
         server.addEventListener(MESSAGE, String.class, (client, str, ackRequest) -> {
 
         });
+
     }
 }

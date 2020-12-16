@@ -1,10 +1,15 @@
-# Wednesday Messenger
+# Web Design and User Experience :
+# Team Wednesday's Final Project
 * Asynchronous JavaScript: Message Web Application
-* With new Java backend server
 
+## Members `{zhou.liha, liu.bo2, chen.jiey, tong.xi}@husky.neu.edu`
+* 001302072 Lihang Zhou
+* 001057068 Bo Liu
+* 001398614 Jieying Chen
+* 001306762 Xing Tong
 
 ## Project Description : 
-*   This project is a message application. We provide a platform for people to chat online with friends and communicate in groups. Here is the specific functions of our app.
+*   Our project is a message application. We provide a plateform for peole to chat online with friends and communicate in groups. Here is the specific functions of our app.
 
 #### For users:
 1. Resgister account
@@ -27,9 +32,6 @@
 * @angular/cli
 * [Socket.io](https://socket.io)
 * [Nebular](https://akveo.github.io/nebular/)
-* Spring MVC
-* Hibernate OGM
-* [netty-socketio](https://github.com/mrniko/netty-socketio)
 
 ## Project Guideline：
 #### How to Run

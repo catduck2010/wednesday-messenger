@@ -11,7 +11,7 @@
 
     <name>Java Server for Wednesday Messenger</name>
     <!-- FIXME change it to the project's website -->
-    <url>https://catduck2010.github.io</url>
+    <url>https://github.com/catduck2010/wednesday-messenger</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -44,6 +44,13 @@
             <artifactId>spring-context</artifactId>
             <version>5.2.10.RELEASE</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>5.2.11.RELEASE</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -65,6 +72,18 @@
             <groupId>com.corundumstudio.socketio</groupId>
             <artifactId>netty-socketio</artifactId>
             <version>1.7.12</version>
+        </dependency>
+        <!--Hibernate search-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search-orm</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-core</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>5.6.1.Final</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.hibernate.ogm/hibernate-ogm-core -->
         <dependency>

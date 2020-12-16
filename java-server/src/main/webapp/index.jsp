@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>Hello World!</h2>
+<h2>Java Server for Wednesday Messenger is Running!</h2>
 </body>
 </html>

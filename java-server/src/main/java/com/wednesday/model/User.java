@@ -2,20 +2,18 @@ package com.wednesday.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "user")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid4")
-    String _id;
+    String id;
 
     String username;
     String nickname;
@@ -33,7 +31,7 @@ public class User {
     }
 
     public User(String username, String nickname, String password) {
-        this._id = UUID.randomUUID().toString();
+        this.id = UUID.randomUUID().toString();
         this.username = username;
         this.nickname = nickname;
         this.password = password;
@@ -43,11 +41,11 @@ public class User {
     }
 
     public String getId() {
-        return _id;
+        return id;
     }
 
     public void setId(String id) {
-        this._id = id;
+        this.id = id;
     }
 
     public String getUsername() {
