@@ -1,6 +1,8 @@
 package com.wednesday.model;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Proxy;
+import org.springframework.stereotype.Indexed;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -8,6 +10,8 @@ import java.util.Set;
 
 @Entity(name = "chat")
 @Table(name = "chats")
+@Proxy(lazy = false)
+@Indexed
 public class Chat {
     public final static String DEFAULT_NAME = "Chat";
     @Id
@@ -16,7 +20,7 @@ public class Chat {
     String id;
 
     String chatName;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     Set<String> users;
 
     public Chat() {

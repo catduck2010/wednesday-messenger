@@ -4,19 +4,19 @@ import com.wednesday.dao.ChatDao;
 import com.wednesday.dao.UserDao;
 import com.wednesday.model.Chat;
 import com.wednesday.model.User;
-import org.hibernate.SessionFactory;
+import org.hibernate.annotations.Proxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.transaction.*;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 
 @Transactional
-@Service("userManager")
+@Service
+@Proxy(lazy = false)
+@Repository("userManager")
 public class UserManager {
     @Autowired
     private UserDao dao;
@@ -27,12 +27,17 @@ public class UserManager {
         dao.persist(u);
     }
 
-    public User search(String username) {
+    public User get(String username) {
         return dao.get(username);
     }
 
+    @Transactional
     public User getById(String userId){
         return dao.find(userId);
+    }
+
+    public List getAllUsers(){
+        return dao.getAllUsers();
     }
 
     public boolean newSession(String username, String sessionId) {

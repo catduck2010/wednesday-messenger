@@ -1,19 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+  http://www.springframework.org/schema/aop
+  http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+  http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context-2.5.xsd
+  http://www.springframework.org/schema/tx
+  http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
     <context:component-scan base-package="com.wednesday"/>
-    <!-- 定义一个转向默认servlet的bean，用于处理静态资源请求 -->
-<!--    <mvc:default-servlet-handler/>-->
-    <!-- 启动SpringMVC注解功能  即@Controller 、@RequestMapping等-->
 <!--    <mvc:annotation-driven/>-->
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+    <context:annotation-config/>
+    <bean id="userManager" class="com.wednesday.service.manager.UserManager"/>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+
+    </bean>
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
     <bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"/>
     <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+    <!--    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"/>-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/"
+          p:suffix=".jsp"/>
+
+    <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+    <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+
+<!--    <mvc:annotation-driven>-->
+<!--        <mvc:message-converters>-->
+<!--            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>-->
+<!--            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>-->
+<!--        </mvc:message-converters>-->
+<!--    </mvc:annotation-driven>-->
+
+<!--    <bean id="injectionInterceptor" class="com.wednesday.intercepter.InjectionInterceptor"/>-->
+
+<!--    <bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">-->
+<!--        <property name="interceptors">-->
+<!--            <list>-->
+<!--                <ref bean="injectionInterceptor"/>-->
+<!--            </list>-->
+<!--        </property>-->
+<!--    </bean>-->
+
+    <!--    <bean name="/addbook" class="BookController"/>-->
+    <!--    <bean name="/books/add-books" class="AddBookHome"/>-->
+    <!--    <bean name="/books" class="BookHome"/>-->
+    <!--    <bean name="/movies" class="com.wednesday.controller.MovieHomeController"/>-->
+    <!--    <bean name="/movies/add" class="com.wednesday.controller.MovieAddController"/>-->
+    <!--    <bean name="/movies/search" class="com.wednesday.controller.MovieSearchController"/>-->
+
+    <!--    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">-->
+    <!--        <property name="mappings">-->
+    <!--            <value>-->
+    <!--                /books=bookHome-->
+    <!--                /books/add-books=addBookHome-->
+    <!--                /addbook=bookController-->
+    <!--                /message-a=messageControllerA-->
+    <!--            </value>-->
+    <!--        </property>-->
+    <!--    </bean>-->
+
+    <!--    <bean id="bookHome" class="com.wednesday.controller.BookHome"/>-->
+    <!--    <bean id="addBookHome" class="com.wednesday.controller.AddBookHome"/>-->
+    <!--    <bean id="bookController" class="com.wednesday.controller.BookController"/>-->
+    <!--    <bean id="messageControllerA" class="com.wednesday.controller.MessageControllerA"/>-->
+
+    <!--    <bean id="book" class="com.wednesday.model.Book"/>-->
+    <!--    <bean id="movie" class="com.wednesday.model.Movie"/>-->
+    <!--    <bean id="cart" class="com.wednesday.model.Cart"/>-->
+
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="ogm-mongodb"/>
     </bean>
@@ -23,8 +86,32 @@
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
-    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
-<!--    <bean class="com.wednesday.dao.ChatDao" abstract="true"/>-->
 
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+    <!--    <bean id="entityManager" class="javax.persistence.EntityManager" init-method=""/>-->
+    <bean id="userDao" class="com.wednesday.dao.UserDao">
+        <!--        <property name="entityManagerFactory" ref="entityManagerFactory"/>-->
+        <property name="entityManager">
+            <bean class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+                <property name="entityManagerFactory" ref="entityManagerFactory"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="chatDao" class="com.wednesday.dao.ChatDao">
+        <property name="entityManager">
+            <bean class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+                <property name="entityManagerFactory" ref="entityManagerFactory"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="messageDao" class="com.wednesday.dao.MessageDao">
+        <property name="entityManager">
+            <bean class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+                <property name="entityManagerFactory" ref="entityManagerFactory"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 </beans>

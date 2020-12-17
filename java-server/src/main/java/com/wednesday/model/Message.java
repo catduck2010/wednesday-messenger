@@ -1,6 +1,8 @@
 package com.wednesday.model;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Proxy;
+import org.springframework.stereotype.Indexed;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,8 @@ import java.sql.Timestamp;
 
 @Entity(name = "message")
 @Table(name = "messages")
+@Proxy(lazy = false)
+@Indexed
 public class Message {
     public final static String DEFAULT_TYPE = "text";
     @Id

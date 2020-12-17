@@ -13,5 +13,6 @@ public class QuickTest {
 
         User u = new User("909099","Hi","777689");
         em.persist(u);
+        System.out.println(u.getId());
     }
 }

@@ -1,14 +1,17 @@
 package com.wednesday.model;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Proxy;
+import org.springframework.stereotype.Indexed;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity(name = "user")
 @Table(name = "users")
+@Proxy(lazy = false)
+@Indexed
 public class User {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -18,11 +21,11 @@ public class User {
     String nickname;
     String sessionId;
     String password;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     Set<String> friendList;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     Set<String> blockList;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     Set<String> chatList;
 
     public User() {
