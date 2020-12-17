@@ -8,30 +8,30 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity(name = "user")
-@Table(name = "users")
+@Table(name = "users", indexes = {
+        @Index(columnList = "username", name = "username_idx")
+})
 public class User {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid4")
     String id;
-
     String username;
     String nickname;
     String sessionId;
     String password;
-    @OneToMany
-    Set<User> friendList;
-    @OneToMany
-    Set<User> blockList;
-    @OneToMany
-    Set<Chat> chatList;
+    @ElementCollection
+    Set<String> friendList;
+    @ElementCollection
+    Set<String> blockList;
+    @ElementCollection
+    Set<String> chatList;
 
     public User() {
 
     }
 
     public User(String username, String nickname, String password) {
-        this.id = UUID.randomUUID().toString();
         this.username = username;
         this.nickname = nickname;
         this.password = password;
@@ -80,27 +80,27 @@ public class User {
         this.password = password;
     }
 
-    public Set<User> getFriendList() {
+    public Set<String> getFriendList() {
         return friendList;
     }
 
-    public void setFriendList(Set<User> friendList) {
+    public void setFriendList(Set<String> friendList) {
         this.friendList = friendList;
     }
 
-    public Set<User> getBlockList() {
+    public Set<String> getBlockList() {
         return blockList;
     }
 
-    public void setBlockList(Set<User> blockList) {
+    public void setBlockList(Set<String> blockList) {
         this.blockList = blockList;
     }
 
-    public Set<Chat> getChatList() {
+    public Set<String> getChatList() {
         return chatList;
     }
 
-    public void setChatList(Set<Chat> chatList) {
+    public void setChatList(Set<String> chatList) {
         this.chatList = chatList;
     }
 }

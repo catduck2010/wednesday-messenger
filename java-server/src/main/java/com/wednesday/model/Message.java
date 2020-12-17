@@ -1,17 +1,21 @@
 package com.wednesday.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Timestamp;
-import java.util.UUID;
 
 @Entity(name = "message")
 @Table(name = "messages")
 public class Message {
-
+    public final static String DEFAULT_TYPE = "text";
     @Id
-    private String _id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid4")
+    private String id;
     String userId;
     String chatId;
     String type;
@@ -19,23 +23,62 @@ public class Message {
     Timestamp time;
 
     public Message() {
-
+        this.type = DEFAULT_TYPE;
     }
 
     public Message(String userId, String chatId, String content) {
-        this._id = UUID.randomUUID().toString();
         this.userId = userId;
         this.chatId = chatId;
-        this.type = "text";
+        this.type = DEFAULT_TYPE;
         this.content = content;
         this.time = new Timestamp(System.currentTimeMillis());
     }
 
     public void setId(String id) {
-        this._id = id;
+        this.id = id;
     }
 
     public String getId() {
-        return _id;
+        return id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
     }
 }
