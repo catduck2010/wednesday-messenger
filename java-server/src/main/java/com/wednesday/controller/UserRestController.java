@@ -15,7 +15,7 @@ public class UserRestController {
     @Autowired
     private UserManager um;
 
-    @GetMapping("/testuser")
+    @RequestMapping("/testuser")
     private User firstUser(){
         User u = um.getById("a602400f-449f-7076-3a86-c1447bcaffc8");
         return u;

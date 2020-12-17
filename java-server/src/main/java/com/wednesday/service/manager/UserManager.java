@@ -7,6 +7,7 @@ import com.wednesday.model.User;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 @Transactional
-@Repository("userManager")
+@Service("userManager")
 public class UserManager {
     @Autowired
     private UserDao dao;
