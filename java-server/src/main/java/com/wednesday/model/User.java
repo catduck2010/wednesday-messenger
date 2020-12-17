@@ -8,13 +8,11 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity(name = "user")
-@Table(name = "users", indexes = {
-        @Index(columnList = "username", name = "username_idx")
-})
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid4")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     String id;
     String username;
     String nickname;

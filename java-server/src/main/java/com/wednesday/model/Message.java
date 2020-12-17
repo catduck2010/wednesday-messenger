@@ -14,7 +14,7 @@ public class Message {
     public final static String DEFAULT_TYPE = "text";
     @Id
     @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid4")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     String userId;
     String chatId;

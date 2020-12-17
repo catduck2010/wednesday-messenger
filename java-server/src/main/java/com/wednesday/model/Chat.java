@@ -12,7 +12,7 @@ public class Chat {
     public final static String DEFAULT_NAME = "Chat";
     @Id
     @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid4")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     String id;
 
     String chatName;

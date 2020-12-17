@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 @Transactional
-@Scope(proxyMode = ScopedProxyMode.INTERFACES)
+//@Scope(proxyMode = ScopedProxyMode.INTERFACES)
 @Repository("messageDao")
 public class MessageDaoImpl implements MessageDao {
     @PersistenceContext

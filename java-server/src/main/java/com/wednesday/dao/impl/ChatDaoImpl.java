@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Transactional
-@Scope(proxyMode = ScopedProxyMode.INTERFACES)
+//@Scope(proxyMode = ScopedProxyMode.INTERFACES)
 @Repository("chatDao")
 public class ChatDaoImpl implements ChatDao {
     @PersistenceContext

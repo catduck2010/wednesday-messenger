@@ -7,10 +7,13 @@
 
     <context:component-scan base-package="com.wednesday"/>
     <!-- 定义一个转向默认servlet的bean，用于处理静态资源请求 -->
-    <mvc:default-servlet-handler/>
+<!--    <mvc:default-servlet-handler/>-->
     <!-- 启动SpringMVC注解功能  即@Controller 、@RequestMapping等-->
-    <mvc:annotation-driven/>
-
+<!--    <mvc:annotation-driven/>-->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+    <bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"/>
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="ogm-mongodb"/>
     </bean>
@@ -24,6 +27,4 @@
 <!--    <bean class="com.wednesday.dao.ChatDao" abstract="true"/>-->
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
-    <bean id="sessionFactory"/>
-    <bean id="sessionFactory"/>
 </beans>

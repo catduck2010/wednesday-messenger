@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Transactional
-@Scope(proxyMode = ScopedProxyMode.INTERFACES)
+//@Scope(proxyMode = ScopedProxyMode.INTERFACES)
 @Repository("userDao")
 public class UserDaoImpl implements UserDao {
     @PersistenceContext
