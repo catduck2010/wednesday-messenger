@@ -1,16 +1,14 @@
 package com.wednesday.dao;
 
+import com.wednesday.helper.Util;
 import com.wednesday.model.Message;
 import org.hibernate.annotations.Proxy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 
 @Transactional
 @Scope(proxyMode = ScopedProxyMode.DEFAULT)
@@ -24,25 +22,27 @@ public class MessageDao {
     }
 
     public void persist(Message m) {
-
+        em.persist(m);
     }
 
 
     public Message get(String mId) {
-        Query q = em.createNativeQuery("FROM messages WHERE id = :id");
-        q.setParameter("id", mId);
-        Message m = (Message) q.getSingleResult();
+        String query = "db.messages.find({ '_id' : '" + mId + "' })";
+        Message m = (Message) em.createNativeQuery(query, Message.class).getSingleResult();
         return m;
     }
 
 
     public void merge(Message m) {
-
+        em.merge(m);
     }
 
 
-    public void delete(Message m) {
-
+    public void delete(String mId) {
+        Message u = new Message();
+        u.setId(mId);
+        em.remove(u);
+        Util.flushNClear(em);
     }
 
     @Transactional
