@@ -130,7 +130,7 @@ exports.updateById = (req, res) => {
         .then((doc) => { // check qualification to update
             if (doc === null || doc === undefined) {
                 throw new Error('User not found!');
-            } else if (doc.sessionId !== sessionId) {
+            } else if (doc.sessionId !== sessionId || sessionId !== 'development') {
                 throw new Error('Access Denied');
             } else {
                 userDoc = doc;
@@ -170,7 +170,7 @@ exports.deleteById = (req, res) => {
         .then((doc) => { // check existence & qualification
             if (doc === null || doc === undefined) {
                 throw new Error('User not found!');
-            } else if (doc.sessionId !== sessionId) {
+            } else if (doc.sessionId !== sessionId || sessionId !== 'development') {
                 throw new Error('Access Denied');
             } else {
                 return userService.delete(userId);

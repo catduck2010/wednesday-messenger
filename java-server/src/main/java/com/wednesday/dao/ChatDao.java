@@ -12,13 +12,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import java.util.List;
 
 @Transactional
 @Scope(proxyMode = ScopedProxyMode.DEFAULT)
 @Proxy(lazy = false)
 @Repository("chatDao")
 public class ChatDao {
-//    @PersistenceContext(unitName = "ogm-mongodb",type = PersistenceContextType.EXTENDED)
+    //    @PersistenceContext(unitName = "ogm-mongodb",type = PersistenceContextType.EXTENDED)
     private EntityManager em;
 
     public ChatDao() {
@@ -30,8 +31,9 @@ public class ChatDao {
     }
 
     public Chat get(String chatId) {
-
-        return null;
+        String query = "db.chats.find({ '_id' : '" + chatId + "' })";
+        Chat c = (Chat) em.createNativeQuery(query, Chat.class).getSingleResult();
+        return c;
     }
 
     public void merge(Chat c) {
@@ -39,7 +41,15 @@ public class ChatDao {
     }
 
     public void delete(String chatId) {
+        Chat c = new Chat();
+        c.setId(chatId);
+        em.remove(c);
+    }
 
+    public List getUserChats(String userId) {
+        String query = "db.chats.find({'users' : {$in : ['" + userId + "']}})";
+        List list = em.createNativeQuery(query, Chat.class).getResultList();
+        return list;
     }
 
     @Transactional

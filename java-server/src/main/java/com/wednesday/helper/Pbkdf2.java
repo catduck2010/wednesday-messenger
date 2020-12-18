@@ -107,6 +107,7 @@ public class Pbkdf2 {
     }
 
     /**
+     * @deprecated
      * @param password   密码明文
      * @param salt       加盐
      * @param iterations 迭代计数
@@ -146,8 +147,8 @@ public class Pbkdf2 {
             // wrong hash format
             return false;
         }
-        Integer iterations = Integer.parseInt(parts[1]);
-        String salt = parts[2];
+        Integer iterations = Integer.parseInt(parts[0]);
+        String salt = parts[1];
         String hash = encode(iterations, salt, password);
         return hash.equals(hashedPassword);
     }

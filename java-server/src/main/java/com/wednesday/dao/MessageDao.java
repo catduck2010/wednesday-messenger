@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 @Transactional
 @Scope(proxyMode = ScopedProxyMode.DEFAULT)
@@ -43,6 +44,12 @@ public class MessageDao {
         u.setId(mId);
         em.remove(u);
         Util.flushNClear(em);
+    }
+
+    public List getChatMessages(String chatId){
+        String query = "db.messages.find({'chatId' : '"+chatId+"'})";
+        List list = em.createNativeQuery(query, Message.class).getResultList();
+        return list;
     }
 
     @Transactional

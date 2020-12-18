@@ -1,5 +1,6 @@
 package com.wednesday.helper;
 
+import com.corundumstudio.socketio.SocketIOClient;
 import javafx.util.Pair;
 
 import java.util.HashMap;
@@ -8,9 +9,9 @@ import java.util.UUID;
 
 public class UserMap {
 
-    private final Map<String, Pair<String, String>> userMap;// Pair<SessionId, SocketId>
+    private final Map<String, Pair<String, SocketIOClient>> userMap;// Pair<SessionId, SocketId>
     private final Map<String, String> sessionMap;
-    private final Map<String, String> socketMap;
+    private final Map<SocketIOClient, String> socketMap;
 
     public UserMap() {
         userMap = new HashMap<>();
@@ -22,18 +23,18 @@ public class UserMap {
      * put user login details into the map
      *
      * @param userId    user id
-     * @param socketId  socket id
+     * @param client  socket id
      * @param sessionId session id
      */
-    public void put(String userId, String socketId, String sessionId) {
+    public void put(String userId, SocketIOClient client, String sessionId) {
         removeUser(userId);
 
-        userMap.put(userId, new Pair<>(sessionId, socketId));
+        userMap.put(userId, new Pair<>(sessionId, client));
         sessionMap.put(sessionId, userId);
-        socketMap.put(socketId, userId);
+        socketMap.put(client, userId);
     }
 
-    public Pair<String, String> get(String userId) {
+    public Pair<String, SocketIOClient> get(String userId) {
         return userMap.getOrDefault(userId, null);
     }
 
@@ -41,12 +42,12 @@ public class UserMap {
         return this.get(userId).getKey();
     }
 
-    public String getSocketId(String userId) {
+    public SocketIOClient getClient(String userId) {
         return this.get(userId).getValue();
     }
 
-    public void remove(UUID socketId) {
-        String userId = socketMap.getOrDefault(socketId, null);
+    public void remove(SocketIOClient client) {
+        String userId = socketMap.getOrDefault(client, null);
         if (userId != null) {
             removeUser(userId);
         }
@@ -57,7 +58,7 @@ public class UserMap {
     }
 
     private void removeUser(String userId) {
-        Pair<String, String> doc = userMap.getOrDefault(userId, null);
+        Pair<String, SocketIOClient> doc = userMap.getOrDefault(userId, null);
         if (doc != null) {
             sessionMap.remove(doc.getKey());
             socketMap.remove(doc.getValue());

@@ -28,6 +28,7 @@ public class Message {
 
     public Message() {
         this.type = DEFAULT_TYPE;
+        this.time = new Timestamp(System.currentTimeMillis());
     }
 
     public Message(String userId, String chatId, String content) {

@@ -18,6 +18,20 @@
     <context:component-scan base-package="com.wednesday"/>
 <!--    <mvc:annotation-driven/>-->
     <context:annotation-config/>
+    <mvc:cors>
+
+        <mvc:mapping path="/**"
+                     allowed-origins="*"
+                     allowed-methods="GET, POST, OPTIONS, PUT, PATCH, DELETE"
+                     allowed-headers="Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, X-Access-Token, XKey, Authorization"
+                     exposed-headers="Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, X-Access-Token, XKey, Authorization" allow-credentials="false"
+                     max-age="3600" />
+
+<!--        <mvc:mapping path="/resources/**"-->
+<!--                     allowed-origins="http://domain1.com" />-->
+
+    </mvc:cors>
+
     <bean id="userManager" class="com.wednesday.service.manager.UserManager"/>
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
 

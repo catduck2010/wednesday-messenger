@@ -68,5 +68,9 @@ public class UserManager {
 
     }
 
+    public List getUserFriends(String userId){
+        return dao.getFriends(userId);
+    }
+
 
 }

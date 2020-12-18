@@ -7,7 +7,7 @@ import {environment} from '../../environments/environment';
 })
 export class SocketService {
   private socket: SocketIOClient.Socket;
-  private url = environment.apiUrl + '?user=';
+  private url = environment.socketIoUrl + '?user=';
 
   constructor() {
   }

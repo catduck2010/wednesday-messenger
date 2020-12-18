@@ -19,6 +19,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PostLoad;
 import java.util.List;
+import java.util.Set;
 
 @Transactional
 @Scope(proxyMode = ScopedProxyMode.DEFAULT)
@@ -70,27 +71,13 @@ public class UserDao {
 //
 //        User user = (User) ftQuery.getSingleResult();
 
-//        String query = "{$query:{ username : '" + username + "' }}";
-//        User u = (User) em.createNativeQuery(query, User.class).getSingleResult();
-        return null;
+        String query = "db.users.find({'username':'" + username + "'})";
+        User u = (User) em.createNativeQuery(query, User.class).getSingleResult();
+        return u;
     }
 
     @javax.transaction.Transactional
     public User find(String userId) {
-
-//        FullTextEntityManager ftem = Search.getFullTextEntityManager(em);
-//
-//        QueryBuilder qb = ftem.getSearchFactory().buildQueryBuilder()
-//                .forEntity(User.class)
-//                .get();
-//        org.apache.lucene.search.Query q = qb.keyword().onField("id").matching(userId).createQuery();
-//
-//        FullTextQuery ftQuery = ftem.createFullTextQuery(q, User.class);
-//
-//        User user = (User) ftQuery.getSingleResult();
-//
-//        return user;
-        //String query = "{ $query : {'_id' : '" + userId + "' } }";
         String query = "db.users.find({ '_id' : '" + userId + "' })";
         User u = (User) em.createNativeQuery(query, User.class).getSingleResult();
         return u;
@@ -111,6 +98,14 @@ public class UserDao {
         u.setId(userId);
         em.remove(u);
         Util.flushNClear(em);
+    }
+
+    public List getFriends(String userId) {
+        User u = find(userId);
+        Set<String> set = u.getFriendList();
+        String query = "db.users.find({ '_id' : { $in: " + set.toString() + " })";
+        List list = em.createNativeQuery(query, User.class).getResultList();
+        return list;
     }
 
     @Transactional

@@ -21,6 +21,7 @@ public class User {
     String nickname;
     String sessionId;
     String password;
+    Integer passwordVersion;
     @ElementCollection(fetch = FetchType.EAGER)
     Set<String> friendList;
     @ElementCollection(fetch = FetchType.EAGER)
@@ -29,7 +30,7 @@ public class User {
     Set<String> chatList;
 
     public User() {
-
+        this.passwordVersion = 2;
     }
 
     public User(String username, String nickname, String password) {
@@ -39,6 +40,7 @@ public class User {
         this.friendList = new HashSet<>();
         this.blockList = new HashSet<>();
         this.chatList = new HashSet<>();
+        this.passwordVersion = 2;
     }
 
     public String getId() {
