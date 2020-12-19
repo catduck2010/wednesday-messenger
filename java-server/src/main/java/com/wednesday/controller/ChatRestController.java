@@ -1,5 +1,6 @@
 package com.wednesday.controller;
 
+import com.wednesday.helper.MakeResponse;
 import com.wednesday.helper.Util;
 import com.wednesday.model.Chat;
 import com.wednesday.model.User;
@@ -7,10 +8,17 @@ import com.wednesday.service.manager.ChatManager;
 import com.wednesday.service.manager.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+//@CrossOrigin(origins = "*", maxAge = 3600)
 @Transactional
 @RestController
 public class ChatRestController {
@@ -20,58 +28,113 @@ public class ChatRestController {
     private UserManager um;
 
 
-    @RequestMapping(value = "/chats",
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-            method = RequestMethod.POST,
-            produces = "application/json")
-    public String newChat(ChatExtended ce) {
+    @PostMapping(value = "/chats",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> newChat(@RequestBody String body) {
+        NewChatInfo ce = Util.fetchGson().fromJson(body, NewChatInfo.class);
+        // create new chat in db
+        Chat c = new Chat();
+        c.setChatName(ce.getChatName());
+        Set<String> userSet = new HashSet<>();
+        Collections.addAll(userSet, ce.getUsers());
+        c.setUsers(userSet);
+        cm.create(c);
+        // add chat to creator's chat list
+        um.addChat(userSet, c.getId());
 
-        cm.create(ce);
-        User u = um.getById(ce.userId);
-        u.getChatList().add(ce.getId());
-        um.update(u);
-
-        return Util.fetchGson().toJson(ce);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Util.fetchGson().toJson(ce));
     }
 
-    @RequestMapping(value = "/chats/{chatId}",
-            method = RequestMethod.GET,
-            produces = "application/json")
-    public String getChatInfo(@PathVariable String chatId) {
+    @GetMapping(value = "/chats/{chatId}")
+    public ResponseEntity<String> getChatInfo(@PathVariable String chatId) {
         Chat c = cm.getInfo(chatId);
-        return Util.fetchGson().toJson(c);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Util.fetchGson().toJson(c));
     }
 
-    @RequestMapping(value = "/chats/{chatId}",
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-            method = RequestMethod.PUT,
-            produces = "application/json")
-    public String editChatInfo(@PathVariable String chatId, Chat c) {
+    @GetMapping(value = "/chats/get/{chatId}")
+    public ResponseEntity<String> postToGetChatMessage(@PathVariable String chatId){
+        List l = cm.getChatMessages(chatId);
+        return MakeResponse.okJson(Util.fetchGson().toJson(l));
+    }
+
+    @PutMapping(value = "/chats/{chatId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> editChatInfo(@PathVariable String chatId, @RequestBody String body) {
+        Chat c = Util.fetchGson().fromJson(body, Chat.class);
         c.setId(chatId);
         cm.update(c);
-        return Util.fetchGson().toJson(c);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Util.fetchGson().toJson(c));
     }
 
-    @RequestMapping(value = "/chats/{chatId}",
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-            method = RequestMethod.DELETE,
-            produces = "application/json")
-    public String deleteChat(@PathVariable String chatId) {
+    @DeleteMapping(value = "/chats/{chatId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> deleteChat(@PathVariable String chatId) {
         cm.delete(chatId);
-        return Util.fetchGson().toJson(new SimpleMessage("success"));
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Util.fetchGson().toJson(new SimpleMessage("success")));
     }
 
-    static class ChatExtended extends Chat {
-        String sessionId, userId;
+    static class NewChatInfo {
+        String sessionId, userId, chatName;
+        String[] users;
+
+        public String getSessionId() {
+            return sessionId;
+        }
+
+        public void setSessionId(String sessionId) {
+            this.sessionId = sessionId;
+        }
+
+        public String getUserId() {
+            return userId;
+        }
+
+        public void setUserId(String userId) {
+            this.userId = userId;
+        }
+
+        public String getChatName() {
+            return chatName;
+        }
+
+        public void setChatName(String chatName) {
+            this.chatName = chatName;
+        }
+
+        public String[] getUsers() {
+            return users;
+        }
+
+        public void setUsers(String[] users) {
+            this.users = users;
+        }
     }
 
-    static class SimpleMessage{
+    static class SimpleMessage {
         String message;
-        SimpleMessage(){
+
+        SimpleMessage() {
 
         }
-        SimpleMessage(String m){
+
+        SimpleMessage(String m) {
             message = m;
         }
+    }
+
+    @ModelAttribute
+    public void setCORSHeaders(HttpServletResponse res) {
+        Util.setCorsHeaders(res);
     }
 }

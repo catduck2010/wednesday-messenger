@@ -103,13 +103,30 @@ public class UserDao {
     public List getFriends(String userId) {
         User u = find(userId);
         Set<String> set = u.getFriendList();
-        String query = "db.users.find({ '_id' : { $in: " + set.toString() + " })";
+        String setStr = setHandler(set);
+        String query = "db.users.find({ '_id' : { $in: " + setStr + " }})";
+        //System.out.println(query);
         List list = em.createNativeQuery(query, User.class).getResultList();
         return list;
+    }
+
+    public void attachChat(Set<String> users, String chatId) {
+        String query = "db.users.updateMany({{'_id':{$in:" + setHandler(users) + "}}, {$addToSet: {'chatList': '" + chatId + "'}}})";
+        em.createNativeQuery(query).executeUpdate();
     }
 
     @Transactional
     public void setEntityManager(EntityManager entityManager) {
         em = entityManager;
+    }
+
+    private static String setHandler(Set<String> set) {
+        String s = String.join("', '", set);
+        return "['" + s + "']";
+    }
+
+    private static String setHandler(String[] list) {
+        String s = String.join("', '", list);
+        return "['" + s + "']";
     }
 }

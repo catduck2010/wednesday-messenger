@@ -2,22 +2,72 @@ package com.wednesday.controller;
 
 import com.google.gson.Gson;
 import com.wednesday.dao.MessageDao;
+import com.wednesday.helper.MakeResponse;
 import com.wednesday.helper.Util;
 import com.wednesday.model.Message;
 import com.wednesday.service.manager.MessageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+import javax.servlet.http.HttpServletResponse;
+
+//@CrossOrigin(origins = "*", maxAge = 3600)
 @Transactional
 @RestController
 public class MessageRestController {
     @Autowired
     MessageManager mm;
 
-    class MessageExtended extends Message{
+
+    @PostMapping(value = "/messages",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> newMessage(@RequestBody String body){
+        MessageExtended m = Util.fetchGson().fromJson(body, MessageExtended.class);
+        Gson g = Util.fetchGson();
+        mm.create(m);
+        return MakeResponse.okJson(g.toJson(m));
+    }
+
+    @PostMapping(value = "/messages/{messageId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> postToGetMessage(@PathVariable String messageId){
+        Gson g = Util.fetchGson();
+        Message m = mm.get(messageId);
+        return MakeResponse.okJson(g.toJson(m));
+    }
+
+    @PutMapping(value = "/messages/{messageId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> editMessage(@PathVariable String messageId, @RequestBody String body){
+        MessageExtended m = Util.fetchGson().fromJson(body, MessageExtended.class);
+        Gson g = Util.fetchGson();
+        m.setId(messageId);
+        mm.update(m);
+        return MakeResponse.okJson(g.toJson(m));
+    }
+
+    @DeleteMapping(value = "/messages/{messageId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> deleteMessage(@PathVariable String messageId){
+        mm.delete(messageId);
+        SimpleMessage sm = new SimpleMessage("success");
+        return MakeResponse.okJson(Util.fetchGson().toJson(sm));
+    }
+
+//    @RequestMapping(value = "/messages/test", method = RequestMethod.GET, produces = "application/json")
+//    public String testMessage(){
+//        Gson g =Util.fetchGson();
+//        Message m = mm.get("350870f5-e001-591d-a7cf-5bd5f090e92f");
+////        MessageExtended me = (MessageExtended) m;
+////        me.setSessionId("kokosuki");
+//        return g.toJson(m);
+//    }
+
+
+    static class MessageExtended extends Message{
         String sessionId;
 
         public String getSessionId() {
@@ -29,7 +79,7 @@ public class MessageRestController {
         }
     }
 
-    class SimpleMessage {
+    static class SimpleMessage {
         String message;
         SimpleMessage(){}
         SimpleMessage(String m){
@@ -44,54 +94,8 @@ public class MessageRestController {
             this.message = message;
         }
     }
-
-    @RequestMapping(value = "/messages",
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-            method = RequestMethod.POST,
-            produces = "application/json")
-    public String newMessage(MessageExtended m){
-        Gson g = Util.fetchGson();
-        mm.create(m);
-        return g.toJson(m);
-    }
-
-    @RequestMapping(value = "/messages/{messageId}",
-            method = RequestMethod.POST,
-            produces = "application/json")
-    public String postToGetMessage(@PathVariable String messageId){
-        Gson g = Util.fetchGson();
-        Message m = mm.get(messageId);
-        return g.toJson(m);
-    }
-
-    @RequestMapping(value = "/messages/{messageId}",
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-            method = RequestMethod.PUT,
-            produces = "application/json")
-    public String editMessage(@PathVariable String messageId, MessageExtended m){
-        Gson g = Util.fetchGson();
-        m.setId(messageId);
-        mm.update(m);
-        return g.toJson(m);
-    }
-
-    @RequestMapping(value = "/messages/{messageId}",
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-            method = RequestMethod.DELETE,
-            produces = "application/json")
-    public String deleteMessage(@PathVariable String messageId){
-        Gson g = Util.fetchGson();
-        mm.delete(messageId);
-        SimpleMessage sm = new SimpleMessage("success");
-        return g.toJson(sm);
-    }
-
-    @RequestMapping(value = "/messages/test", method = RequestMethod.GET, produces = "application/json")
-    public String testMessage(){
-        Gson g =Util.fetchGson();
-        Message m = mm.get("350870f5-e001-591d-a7cf-5bd5f090e92f");
-//        MessageExtended me = (MessageExtended) m;
-//        me.setSessionId("kokosuki");
-        return g.toJson(m);
+    @ModelAttribute
+    public void setCORSHeaders(HttpServletResponse res){
+        Util.setCorsHeaders(res);
     }
 }

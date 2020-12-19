@@ -3,6 +3,7 @@ package com.wednesday.service;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.Transport;
 import com.wednesday.helper.UserMap;
 import com.wednesday.model.Chat;
 import com.wednesday.model.User;
@@ -25,8 +26,9 @@ public class SocketIoService implements ApplicationListener<ContextRefreshedEven
 
     //private final static int PORT = 7777; // fuck Carrie Lam, the virus to Hong Kong
     private final static int PORT = 8085;
-    private final static String HOSTNAME = "127.0.0.1";
-    private final static String MESSAGE = "message",
+    private final static String
+            HOSTNAME = "127.0.0.1",
+            MESSAGE = "message",
             SUCCESS = "success",
             ERROR_MSG = "error_message",
             NEW_MSG = "new message",
@@ -43,7 +45,10 @@ public class SocketIoService implements ApplicationListener<ContextRefreshedEven
             userMap = new UserMap();
             Configuration config = new Configuration();
             config.setPort(PORT);
+            config.setOrigin(":*:");
+            config.setTransports(Transport.POLLING, Transport.WEBSOCKET);
             config.setHostname(HOSTNAME);
+
             server = new SocketIOServer(config);
             addSeveralListeners(server);
         }

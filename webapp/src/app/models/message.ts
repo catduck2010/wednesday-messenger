@@ -1,6 +1,6 @@
 // define objects
 export interface Message {
-  _id: string;
+  id: string;
   userId: string;
   chatId: string;
   type: string;

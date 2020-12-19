@@ -16,7 +16,7 @@ export class MessageEmitterService {
   newMessage(message: Message) {
     this.messageAnnouncedSource.next(message);
     this.messageAnnouncedSource.next({
-      _id: '',
+      id: '',
       chatId: '',
       content: '',
       time: new Date(),

@@ -32,6 +32,7 @@ export class GrandService {
           this.api.getUserById(this.userId)
             .subscribe((user) => {
               this.currentUser = user;
+              console.log(user);
               this.socket = this.skt.legacyConnect(this.userId);
               this.router.navigate(['index']).then(b => console.log(b));
             });

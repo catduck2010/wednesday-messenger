@@ -1,6 +1,6 @@
 // define objects
 export interface Chat {
-  _id: string;
+  id: string;
   chatName: string;
   users: Array<string>;
 }

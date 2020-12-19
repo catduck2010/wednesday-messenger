@@ -61,6 +61,7 @@ public class UserManager {
     public void addChat(Set<String> users, String chatId){
         Chat c = new Chat(users);
         chatDao.persist(c);
+        dao.attachChat(users, chatId);
 
     }
 

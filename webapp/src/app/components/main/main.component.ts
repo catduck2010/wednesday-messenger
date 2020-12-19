@@ -126,7 +126,7 @@ export class MainComponent implements OnInit {
           this.popToastr(doc.content, `From ${this.userMap.get(doc.userId).nickname}:`);
           let flag = false;
           this.chats.forEach((chat) => {
-            if (chat._id === chatId) {
+            if (chat.id === chatId) {
               flag = true;
             }
           });
@@ -171,7 +171,7 @@ export class MainComponent implements OnInit {
               if (!this.userMap.has(id)) {
                 this.api.getUserById(id)
                   .subscribe((user) => {
-                      this.userMap.set(user._id, user);
+                      this.userMap.set(user.id, user);
                     },
                     (error) => {
                       this.toastr.danger(error, `Cannot find user ${id}`);
@@ -196,7 +196,7 @@ export class MainComponent implements OnInit {
             this.friends.push(user);
           });
           this.friends.forEach(user => {
-            this.userMap.set(user._id, user);
+            this.userMap.set(user.id, user);
           });
         }
       );
@@ -244,7 +244,7 @@ export class MainComponent implements OnInit {
     } else if (chat.users.length === 2) {
       const users = chat.users;
       users.forEach(userId => {
-        if (userId !== this.currentUser._id) {
+        if (userId !== this.currentUser.id) {
           str = this.userMap.get(userId).nickname;
         }
       });
@@ -359,7 +359,7 @@ export class MainComponent implements OnInit {
     const info = this.grand.getInfo();
     let flag = false;
     this.chats.every((chat) => {
-      if (chat.users.indexOf(friend._id) !== -1 &&
+      if (chat.users.indexOf(friend.id) !== -1 &&
         chat.users.indexOf(info.userId) !== -1 &&
         chat.users.length === 2) {
         this.openChat(chat);
@@ -369,7 +369,7 @@ export class MainComponent implements OnInit {
       return true;
     });
     if (!flag) {
-      this.createChat('Chat', [friend._id]);
+      this.createChat('Chat', [friend.id]);
     }
   }
 
@@ -389,7 +389,7 @@ export class MainComponent implements OnInit {
   }
 
   checkIfCurrentUser(user: User) {
-    return user._id === this.grand.getInfo().userId;
+    return user.id === this.grand.getInfo().userId;
   }
 
   // when click create button at create chat window
@@ -397,7 +397,7 @@ export class MainComponent implements OnInit {
     if (this.newChatName !== '') {
       const userIds: string[] = [];
       this.checkedUser.forEach(user => {
-        userIds.push(user._id);
+        userIds.push(user.id);
       });
       this.createChat(this.newChatName, userIds);
     } else {

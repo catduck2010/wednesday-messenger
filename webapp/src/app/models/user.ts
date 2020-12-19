@@ -1,6 +1,6 @@
 // define objects
 export interface User {
-  _id: string;
+  id: string;
   username: string;
   nickname: string;
   password: string;

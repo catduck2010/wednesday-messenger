@@ -150,10 +150,7 @@ export class MessengerApiService {
   // get all messages from a chat
   getChatMessages(sessionId: string, userId: string, chatId: string) {
     return this.http
-      .post<Message[]>(url + '/chats/' + chatId, {
-        sessionId,
-        userId
-      }, {headers})
+      .get<Message[]>(url + '/chats/get/' + chatId)
       .pipe(catchError(MessengerApiService.handleError));
 
   }

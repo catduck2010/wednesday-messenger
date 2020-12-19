@@ -6,16 +6,22 @@ import com.wednesday.helper.Util;
 import com.wednesday.model.User;
 import com.wednesday.service.manager.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.websocket.server.ServerEndpoint;
 import java.util.UUID;
 
 
 @Transactional
-@RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
+@Controller
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AuthRestController {
     @Autowired
     private UserManager um;
@@ -107,16 +113,16 @@ public class AuthRestController {
         }
     }
 
-    @RequestMapping(value = "/users/login",
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-            method = RequestMethod.POST,
-            produces = "application/text")
-    public String verify(UserPass up) {
+    //@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*", maxAge = 3600)
+    @PostMapping(value = "/users/login",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = "application/json")
+    public ResponseEntity<String> verify(@RequestBody String body) {
+        UserPass up = Util.fetchGson().fromJson(body, UserPass.class);
         String json;
         System.out.println("Username" + up.username);
         System.out.println("Password" + up.password);
 
-        Gson g = Util.fetchGson();
         String username = up.username;
         String password = up.password;
 
@@ -128,15 +134,16 @@ public class AuthRestController {
             ld.message = "Logged In";
             ld.sessionId = UUID.randomUUID().toString();
             ld.userId = u.getId();
-            json = g.toJson(ld);
+            json = Util.fetchGson().toJson(ld);
         } else {
             SimpleMessage msg = new SimpleMessage();
             msg.message = "Incorrect username or password.";
-            json = g.toJson(msg);
+            json = Util.fetchGson().toJson(msg);
         }
 
-
-        return json;
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(json);
     }
 
     @RequestMapping(value = "/uuid",
@@ -145,4 +152,10 @@ public class AuthRestController {
     public String getUUID() {
         return Util.fetchGson().toJson(new SimpleUUID());
     }
+
+    @ModelAttribute
+    public void setCORSHeaders(HttpServletResponse res) {
+        Util.setCorsHeaders(res);
+    }
+
 }

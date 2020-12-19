@@ -73,7 +73,7 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
       this.api.deleteMessageById(info.sessionId, info.userId, msg.id)
         .subscribe(() => {
           this.toastr.success('Message Deleted.');
-          this.grand.socket.emit('delete message', info.userId, info.sessionId, this.chat._id, msg.id);
+          this.grand.socket.emit('delete message', info.userId, info.sessionId, this.chat.id, msg.id);
           msg.deleted = true;
         }, () => {
           this.toastr.danger('Error on deleting this message.');
@@ -116,14 +116,15 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
   init() {
     if (this.chat !== null) {
       const info = this.grand.getInfo();
-      this.chatId = this.chat._id;
+      this.chatId = this.chat.id;
       this.userId = info.userId;
       const peopleId = this.chat.users;
       // this.people = this.chat.users;
       this.userMap = new Map<string, User>();
       this.messageMap = new Map<string, Message>();
       this.people.forEach(person => {
-        this.userMap.set(person._id, person);
+        this.userMap.set(person.id, person);
+        console.log(person);
       });
       this.getAllMessages();
     }
@@ -149,9 +150,9 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
     this.api.createMessage(info.sessionId, info.userId, this.chatId, 'text', event.message)
       .subscribe((message) => {
         // userId, sessionId, chatId, messageId
-        this.grand.socket.emit('message', info.userId, info.sessionId, this.chatId, message._id);
+        this.grand.socket.emit('message', info.userId, info.sessionId, this.chatId, message.id);
         this.messages.push({
-          id: message._id,
+          id: message.id,
           text: message.content,
           date: new Date(message.time),
           type: message.type,
@@ -185,9 +186,9 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   messageConverter(message: Message) {
-    if (!this.messageMap.has(message._id)) {
+    if (!this.messageMap.has(message.id)) {
       const item = {
-        id: message._id,
+        id: message.id,
         text: message.content,
         date: new Date(message.time),
         type: message.type,
@@ -197,7 +198,7 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
         },
         deleted: false
       };
-      this.messageMap.set(message._id, item);
+      this.messageMap.set(message.id, item);
       return item;
     }
     return undefined;
