@@ -1,6 +1,6 @@
 # Wednesday Messenger
 * Asynchronous JavaScript: Message Web Application
-* With new Java backend server
+* With new Java backend server **(cannot use two type of backend together)**
 
 
 ## Project Description : 
